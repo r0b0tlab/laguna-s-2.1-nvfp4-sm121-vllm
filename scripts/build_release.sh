@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Durable, single-owner source build wrapper.
-set -uo pipefail
+set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PRIVATE_ROOT="${PRIVATE_ROOT:-$HOME/laguna-s21-work/evidence/build}"
@@ -32,6 +32,17 @@ for key in ('version','tag','commit'):
         raise SystemExit(f'BUILD_FAIL: dependency manifest {key} is stale: {manifest["vllm"][key]} != {lock["vllm"][key]}')
 print('LATEST_VLLM_LOCK_PASS')
 PY
+python3 - "$LOCK" "$ROOT/docker/runtime-manifest.production.json" <<'PY'
+import json,sys
+dependency=json.load(open(sys.argv[1]))
+runtime=json.load(open(sys.argv[2]))
+expected=dependency['vllm']
+actual=(runtime.get('vllm_version'), runtime.get('vllm_tag'), runtime.get('vllm_commit'))
+wanted=(expected['version'], expected['tag'], expected['commit'])
+if actual != wanted:
+    raise SystemExit(f'BUILD_FAIL: runtime manifest vLLM identity is stale: {actual!r} != {wanted!r}')
+print('RUNTIME_MANIFEST_LOCK_PASS')
+PY
 
 cd "$ROOT"
 if [[ -n "$(git status --porcelain)" ]]; then
@@ -50,6 +61,7 @@ sha256sum docker/Dockerfile.production docker/dependency-manifest.json docker/ru
 printf '%s\n' "$REVISION" > "$PRIVATE_ROOT/source-revision.txt"
 printf '%s\n' "$IMAGE" > "$PRIVATE_ROOT/image-tag.txt"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$PRIVATE_ROOT/build-start.timestamp"
+rm -f "$PRIVATE_ROOT/build-pass.timestamp" "$PRIVATE_ROOT/build-fail.timestamp"
 
 set +e
 MAX_JOBS=4 NVCC_THREADS=2 docker buildx build --load --progress=plain \

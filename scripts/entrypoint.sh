@@ -30,6 +30,7 @@ fi
 MODEL_PATH="${MODEL_PATH:-/models/Laguna-S-2.1-NVFP4}"
 MODEL_REVISION="${MODEL_REVISION:-216d1f13878dd4e715bc7412848d0f330e95bba6}"
 DRAFT_MODEL_PATH="${DRAFT_MODEL_PATH:-/models/Laguna-S-2.1-DFlash-NVFP4}"
+DRAFT_MODEL_REVISION="${DRAFT_MODEL_REVISION:-723794750422b3efbf3a7b3af76dffb4ba035943}"
 SERVED_MODEL_NAME="${SERVED_MODEL_NAME:-poolside/Laguna-S-2.1-NVFP4}"
 HOST="${HOST:-0.0.0.0}"
 PORT="${PORT:-8000}"
@@ -64,7 +65,7 @@ if [[ "$MODEL_PATH" != /* ]] && [[ -n "$MODEL_REVISION" ]]; then
 fi
 
 if [[ "$DFLASH_TOKENS" =~ ^[1-9][0-9]*$ ]]; then
-    spec_json="$(DRAFT_MODEL_PATH="$DRAFT_MODEL_PATH" DFLASH_TOKENS="$DFLASH_TOKENS" python3 -c 'import json,os; print(json.dumps({"method":"dflash","model":os.environ["DRAFT_MODEL_PATH"],"num_speculative_tokens":int(os.environ["DFLASH_TOKENS"])},separators=(",",":")))')"
+    spec_json="$(DRAFT_MODEL_PATH="$DRAFT_MODEL_PATH" DRAFT_MODEL_REVISION="$DRAFT_MODEL_REVISION" DFLASH_TOKENS="$DFLASH_TOKENS" python3 -c 'import json,os; value={"method":"dflash","model":os.environ["DRAFT_MODEL_PATH"],"num_speculative_tokens":int(os.environ["DFLASH_TOKENS"])}; value.update({"revision":os.environ["DRAFT_MODEL_REVISION"]} if not os.environ["DRAFT_MODEL_PATH"].startswith("/") else {}); print(json.dumps(value,separators=(",",":")))')"
     args+=(--speculative-config "$spec_json")
 elif [[ "$DFLASH_TOKENS" != "0" ]]; then
     printf 'R0B0TLAB_LAUNCH_REJECTED: DFLASH_TOKENS must be 0 or a positive integer, got %q\n' "$DFLASH_TOKENS" >&2

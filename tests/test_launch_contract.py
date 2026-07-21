@@ -79,9 +79,11 @@ class LaunchContractTests(unittest.TestCase):
             'MAX_NUM_SEQS="${MAX_NUM_SEQS:-32}"',
             'GPU_MEMORY_UTILIZATION="${GPU_MEMORY_UTILIZATION:-0.85}"',
             'DFLASH_TOKENS="${DFLASH_TOKENS:-0}"',
+            'DRAFT_MODEL_REVISION="${DRAFT_MODEL_REVISION:-723794750422b3efbf3a7b3af76dffb4ba035943}"',
             "--reasoning-parser poolside_v1",
             "--tool-call-parser poolside_v1",
             '"method":"dflash"',
+            '"revision"',
         ):
             self.assertIn(expected, text)
         self.assertNotIn("--enable-prefix-caching", text)

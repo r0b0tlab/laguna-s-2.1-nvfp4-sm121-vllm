@@ -60,17 +60,22 @@ RUN python3 -m pip install \
         --extra-index-url https://download.pytorch.org/whl/cu130 \
         -r requirements/build/cuda.txt
 
-# The exact source build is its own cacheable layer.
-RUN python3 -m pip install --no-build-isolation --no-deps .
-
 # Poolside's native GB10 recipe requires the matching nightly trio. Install it
-# after vLLM so the release's 0.6.13 requirement cannot overwrite it.
+# after requirements so the release's 0.6.13 requirement cannot overwrite it.
 RUN python3 -m pip install --pre --upgrade --no-deps \
         "flashinfer-python==${FLASHINFER_VERSION}" \
         "flashinfer-cubin==${FLASHINFER_VERSION}" \
         "flashinfer-jit-cache==${FLASHINFER_VERSION}" \
         --extra-index-url https://flashinfer.ai/whl/nightly/ \
         --extra-index-url https://flashinfer.ai/whl/nightly/cu130/
+
+COPY scripts/check_dependencies.py /usr/local/bin/check_dependencies.py
+RUN chmod 0755 /usr/local/bin/check_dependencies.py \
+    && /usr/local/bin/check_dependencies.py
+
+# The exact source build is its own cacheable layer, after fail-closed dependency
+# resolution and before fallible package/identity assertions.
+RUN python3 -m pip install --no-build-isolation --no-deps .
 
 WORKDIR /
 
@@ -112,7 +117,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     NVCC_THREADS=2 \
     FLASHINFER_NVCC_THREADS=2 \
     CUTE_DSL_ARCH=sm_121a \
-    FLASHINFER_CACHE_DIR=/root/.cache/flashinfer
+    FLASHINFER_CACHE_DIR=/var/cache/flashinfer
 ENV PATH=/opt/vllm/bin:${CUDA_HOME}/bin:/usr/local/bin:${PATH}
 ENV LD_LIBRARY_PATH=${CUDA_HOME}/lib64:/usr/lib/aarch64-linux-gnu
 
@@ -134,6 +139,7 @@ RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/
     && nvcc --version | grep -F "release 13.0"
 
 COPY --from=builder /opt/vllm/ /opt/vllm/
+RUN mkdir -p /var/cache/flashinfer && chmod 1777 /var/cache/flashinfer
 
 ARG IMAGE_REVISION=uncommitted
 LABEL org.opencontainers.image.title="Laguna S 2.1 NVFP4 SM121 vLLM runtime" \

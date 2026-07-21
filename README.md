@@ -52,7 +52,7 @@ The durable build writes its log, return code, image inspection, and PASS/FAIL s
 ```bash
 docker run --rm --gpus all --ipc=host --network host \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
-  -v /path/to/flashinfer-cache:/root/.cache/flashinfer \
+  -v /path/to/flashinfer-cache:/var/cache/flashinfer \
   laguna-s21-sm121-vllm:v0.25.1-candidate
 ```
 
@@ -65,7 +65,7 @@ docker run --rm --gpus all --ipc=host --network host \
   -e DFLASH_TOKENS=15 \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/Laguna-S-2.1-DFlash-NVFP4:/models/Laguna-S-2.1-DFlash-NVFP4:ro \
-  -v /path/to/flashinfer-cache:/root/.cache/flashinfer \
+  -v /path/to/flashinfer-cache:/var/cache/flashinfer \
   laguna-s21-sm121-vllm:v0.25.1-candidate
 ```
 

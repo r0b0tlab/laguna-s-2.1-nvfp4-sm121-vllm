@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 import sys
+import tempfile
 import unittest
 from unittest.mock import patch
 
@@ -38,6 +40,18 @@ class ResolverTests(unittest.TestCase):
         with patch.object(resolver, "fetch_json", side_effect=fixtures(prerelease=True)):
             with self.assertRaisesRegex(RuntimeError, "draft or prerelease"):
                 resolver.resolve()
+
+    def test_write_preserves_compatibility_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "dependency.json"
+            path.write_text(json.dumps({"schema_version":1,"torch":{"version":"2.11.0+cu130"},"flashinfer":{"version":"0.6.15.dev20260712"},"models":{"target":{"id":"exact"}},"vllm":{}}))
+            argv = ["resolve_vllm_release.py", "--write", str(path)]
+            with patch.object(resolver, "fetch_json", side_effect=fixtures()), patch.object(sys, "argv", argv):
+                self.assertEqual(resolver.main(), 0)
+            merged = json.loads(path.read_text())
+            self.assertEqual(merged["torch"]["version"], "2.11.0+cu130")
+            self.assertEqual(merged["models"]["target"]["id"], "exact")
+            self.assertEqual(merged["vllm"]["version"], "0.25.1")
 
 
 if __name__ == "__main__":

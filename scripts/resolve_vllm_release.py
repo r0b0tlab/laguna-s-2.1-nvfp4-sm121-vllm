@@ -92,6 +92,16 @@ def main() -> int:
     rendered = json.dumps(data, indent=2, sort_keys=True) + "\n"
     if args.write:
         args.write.parent.mkdir(parents=True, exist_ok=True)
+        if args.write.is_file():
+            current = json.loads(args.write.read_text())
+            if isinstance(current, dict) and any(key in current for key in ("torch", "flashinfer", "models")):
+                current["schema_version"] = data["schema_version"]
+                current["resolved_at"] = data["resolved_at"]
+                current["resolution_policy"] = data["resolution_policy"]
+                current["sources"] = data["sources"]
+                current["vllm"] = data["vllm"]
+                data = current
+                rendered = json.dumps(data, indent=2, sort_keys=True) + "\n"
         args.write.write_text(rendered)
     print(rendered, end="")
     return 0
