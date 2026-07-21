@@ -1,0 +1,10 @@
+*
+!docker/
+docker/*
+!docker/Dockerfile.production
+!docker/runtime-manifest.production.json
+!scripts/
+scripts/*
+!scripts/entrypoint.sh
+!scripts/audit_runtime.py
+!scripts/check_dependencies.py

@@ -88,6 +88,7 @@ class LaunchContractTests(unittest.TestCase):
             self.assertIn(expected, text)
         self.assertNotIn("--enable-prefix-caching", text)
         self.assertIn("--override-generation-config", text)
+        self.assertIn('"top_k":20', text)
 
     def test_recipe_is_exact_candidate_contract(self) -> None:
         text = RECIPE.read_text()

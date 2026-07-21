@@ -89,7 +89,32 @@ python3 -m unittest discover -s tests -v
 python3 scripts/public_safety_scan.py .
 ```
 
+Live qualification tools:
+
+```bash
+# Matched AR or DFlash performance, latency, metrics, and telemetry
+python3 scripts/benchmark.py --model poolside/Laguna-S-2.1-NVFP4 \
+  --container-name laguna-s21-ar --speculation disabled --output results/raw/ar.json
+
+# Pinned 1,319-item GSM8K 0-shot run (requires pyarrow in the client environment)
+python3 scripts/eval_gsm8k.py --output-dir results/raw/gsm8k
+
+# Calibrated 64K, 128K, and 262K retrieval probes
+python3 scripts/context_probe.py --output results/raw/context.json
+
+# Parse a captured Nsight Systems report and reject fallback kernels
+python3 scripts/profile_nvfp4.py profile.nsys-rep --output results/raw/nsight-kernels.json
+```
+
+`eval_gsm8k.py` pins dataset revision `740312add88f781978c0658806c59bc2815b9866` and verifies the test parquet SHA-256 before scoring. Raw samples and host-private evidence remain ignored; only sanitized, checksummed summaries are published.
+
 A healthy API alone is insufficient. Release gates include exact identity, native-kernel markers, semantic/reasoning/tool canaries, long generation, AR/DFlash comparison, latency/throughput/power telemetry, 256K-context qualification, GSM8K 0-shot flexible extraction, immutable image verification, non-root SparkRun, anonymous pull, and clean clone.
+
+Detailed references:
+
+- [`docs/architecture.md`](docs/architecture.md) — checkpoint, native SM121 path, DFlash, and container boundaries
+- [`docs/methodology.md`](docs/methodology.md) — identity, native, performance, context, quality, and publication gates
+- [`docs/troubleshooting.md`](docs/troubleshooting.md) — fail-closed recovery for build, JIT, model load, DFlash, and packaging issues
 
 ## License and credit
 

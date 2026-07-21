@@ -61,9 +61,9 @@ def main() -> int:
 
     expected_packages = {
         "vllm": manifest.get("vllm_package_version"),
-        "flashinfer-python": manifest.get("flashinfer_version"),
-        "flashinfer-cubin": manifest.get("flashinfer_version"),
-        "flashinfer-jit-cache": manifest.get("flashinfer_version"),
+        **(manifest.get("flashinfer_package_versions") or {}),
+        "cuda-tile": manifest.get("cuda_tile"),
+        "nccl4py": manifest.get("nccl4py"),
     }
     add("profile", manifest.get("profile") in {"production-fp8-ar-candidate", "production-fp8-dflash"}, manifest.get("profile"))
     add("target_model", manifest.get("model_id") == "poolside/Laguna-S-2.1-NVFP4", manifest.get("model_id"))

@@ -19,7 +19,9 @@ EXPECTED = {
     "vllm": "0.25.1",
     "flashinfer-python": "0.6.15.dev20260712",
     "flashinfer-cubin": "0.6.15.dev20260712",
-    "flashinfer-jit-cache": "0.6.15.dev20260712",
+    "flashinfer-jit-cache": "0.6.15.dev20260712+cu130",
+    "cuda-tile": "1.5.0",
+    "nccl4py": "0.3.1",
 }
 OVERLAY_RE = re.compile(
     r"^vllm 0\.25\.1 has requirement (flashinfer-(?:python|cubin))==0\.6\.13, but you have \1 0\.6\.15\.dev20260712\.$"

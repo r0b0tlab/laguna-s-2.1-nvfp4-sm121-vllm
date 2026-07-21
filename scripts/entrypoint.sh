@@ -57,7 +57,7 @@ args=(
     --reasoning-parser poolside_v1
     --enable-auto-tool-choice
     --tool-call-parser poolside_v1
-    --override-generation-config '{"temperature":0.7,"top_p":0.95}'
+    --override-generation-config '{"temperature":0.7,"top_p":0.95,"top_k":20}'
 )
 
 if [[ "$MODEL_PATH" != /* ]] && [[ -n "$MODEL_REVISION" ]]; then

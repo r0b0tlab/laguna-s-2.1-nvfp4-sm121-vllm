@@ -28,10 +28,13 @@ class ReleaseContractTests(unittest.TestCase):
         text = (ROOT / "docker/Dockerfile.production").read_text()
         self.assertIn("ARG VLLM_TAG=v0.25.1", text)
         self.assertIn("ARG VLLM_COMMIT=752a3a504485790a2e8491cacbb35c137339ad34", text)
+        self.assertEqual(text.count("ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90"), 2)
+        self.assertEqual(text.count("6ea7d2737648936820e85677177957a0f6521b840d98eb0bbae0a4f003fa7249"), 2)
         self.assertIn('refs/tags/${VLLM_TAG}:refs/tags/${VLLM_TAG}', text)
         self.assertIn("describe --tags --exact-match HEAD", text)
         self.assertIn("pip install --no-build-isolation --no-deps .", text)
         self.assertIn("flashinfer-jit-cache==${FLASHINFER_VERSION}", text)
+        self.assertIn('"cuda-tile==1.5.0" "nccl4py==0.3.1"', text)
         self.assertIn("MAX_JOBS=4", text)
         self.assertIn("CUTE_DSL_ARCH=sm_121a", text)
         install = text.index("pip install --no-build-isolation --no-deps .")
@@ -40,6 +43,10 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertLess(dependency_check, install)
         self.assertLess(install, static_audit)
         self.assertNotIn("git apply", text)
+        dockerignore = (ROOT / ".dockerignore").read_text()
+        self.assertTrue(dockerignore.startswith("*\n"))
+        for required in ("!docker/Dockerfile.production", "!docker/runtime-manifest.production.json", "!scripts/entrypoint.sh", "!scripts/audit_runtime.py", "!scripts/check_dependencies.py"):
+            self.assertIn(required, dockerignore)
 
     def test_latest_release_resolver_is_required(self) -> None:
         resolver = (ROOT / "scripts/resolve_vllm_release.py").read_text()

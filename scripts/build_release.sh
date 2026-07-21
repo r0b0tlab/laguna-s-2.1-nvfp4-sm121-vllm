@@ -57,7 +57,7 @@ VLLM_COMMIT="$(python3 -c 'import json; print(json.load(open("docker/dependency-
 FLASHINFER_VERSION="$(python3 -c 'import json; print(json.load(open("docker/dependency-manifest.json"))["flashinfer"]["version"])')"
 IMAGE="${IMAGE_REPOSITORY}:v${VLLM_VERSION}-candidate"
 
-sha256sum docker/Dockerfile.production docker/dependency-manifest.json docker/runtime-manifest.production.json scripts/entrypoint.sh scripts/audit_runtime.py scripts/check_dependencies.py > "$PRIVATE_ROOT/build-inputs.sha256"
+sha256sum .dockerignore docker/Dockerfile.production docker/dependency-manifest.json docker/runtime-manifest.production.json scripts/entrypoint.sh scripts/audit_runtime.py scripts/check_dependencies.py > "$PRIVATE_ROOT/build-inputs.sha256"
 printf '%s\n' "$REVISION" > "$PRIVATE_ROOT/source-revision.txt"
 printf '%s\n' "$IMAGE" > "$PRIVATE_ROOT/image-tag.txt"
 date -u +%Y-%m-%dT%H:%M:%SZ > "$PRIVATE_ROOT/build-start.timestamp"

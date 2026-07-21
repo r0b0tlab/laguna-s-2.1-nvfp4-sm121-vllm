@@ -1,44 +1,76 @@
 {
-  "schema_version": 1,
-  "resolved_at": "2026-07-21T18:46:50Z",
-  "resolution_policy": "newest GitHub non-draft non-prerelease release whose tag agrees with non-yanked PyPI info.version",
-  "sources": {
-    "github_latest": "https://api.github.com/repos/vllm-project/vllm/releases/latest",
-    "github_tags": "https://api.github.com/repos/vllm-project/vllm/tags",
-    "pypi": "https://pypi.org/pypi/vllm/json"
+  "base_image": {
+    "reference": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90"
   },
-  "vllm": {
-    "version": "0.25.1",
-    "tag": "v0.25.1",
-    "commit": "752a3a504485790a2e8491cacbb35c137339ad34",
-    "source_build": true,
-    "pypi_yanked": false,
-    "sdist_sha256": "ddbdec3f1c0f21afa70b7eb6ddf3faa29d26b1302ee4b5d5e00ec3af41b0c2e4",
-    "aarch64_wheel_sha256": "902be760af4c5ebfad8af5b8ea07a53ae14e5a6c839c8ab56da30581abb75ad2"
-  },
-  "torch": {
-    "version": "2.11.0+cu130",
-    "cuda": "13.0"
+  "cuda_keyring": {
+    "sha256": "6ea7d2737648936820e85677177957a0f6521b840d98eb0bbae0a4f003fa7249",
+    "url": "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb"
   },
   "flashinfer": {
-    "version": "0.6.15.dev20260712",
     "packages": [
       "flashinfer-python",
       "flashinfer-cubin",
       "flashinfer-jit-cache"
     ],
-    "source": "Poolside Laguna S 2.1 GB10 recipe"
+    "package_versions": {
+      "flashinfer-python": "0.6.15.dev20260712",
+      "flashinfer-cubin": "0.6.15.dev20260712",
+      "flashinfer-jit-cache": "0.6.15.dev20260712+cu130"
+    },
+    "cuda_tile": "1.5.0",
+    "nccl4py": "0.3.1",
+    "source": "Poolside Laguna S 2.1 GB10 recipe",
+    "version": "0.6.15.dev20260712"
   },
   "models": {
-    "target": {
-      "id": "poolside/Laguna-S-2.1-NVFP4",
-      "revision": "216d1f13878dd4e715bc7412848d0f330e95bba6",
-      "architecture": "LagunaForCausalLM"
-    },
     "draft": {
+      "architecture": "DFlashLagunaForCausalLM",
       "id": "poolside/Laguna-S-2.1-DFlash-NVFP4",
-      "revision": "723794750422b3efbf3a7b3af76dffb4ba035943",
-      "architecture": "DFlashLagunaForCausalLM"
+      "revision": "723794750422b3efbf3a7b3af76dffb4ba035943"
+    },
+    "target": {
+      "architecture": "LagunaForCausalLM",
+      "id": "poolside/Laguna-S-2.1-NVFP4",
+      "revision": "216d1f13878dd4e715bc7412848d0f330e95bba6"
     }
+  },
+  "resolution_policy": "newest GitHub non-draft non-prerelease release whose tag agrees with non-yanked PyPI info.version",
+  "resolved_at": "2026-07-21T19:27:03.871646+00:00",
+  "schema_version": 1,
+  "sources": {
+    "github_latest": {
+      "sha256": "548d81d08e28b9de57b7526612b5816ff25463ae65dad64069e8370dee45d38c",
+      "url": "https://api.github.com/repos/vllm-project/vllm/releases/latest"
+    },
+    "github_main": {
+      "sha256": "925dbc3b402ad3340afc2ca00c36923557c9d25975a26febd1eca366cb307835",
+      "url": "https://api.github.com/repos/vllm-project/vllm/commits/main"
+    },
+    "github_tags": {
+      "sha256": "826d6c2f2f2574c74d41d5e0abab424ad46960178377eb41a9abd942ba132b7d",
+      "url": "https://api.github.com/repos/vllm-project/vllm/tags?per_page=100"
+    },
+    "pypi": {
+      "sha256": "0df216c5b046b169f5cdc6a13e9207ffd20d7c50802d2f7523236032f1e01ccb",
+      "url": "https://pypi.org/pypi/vllm/json"
+    }
+  },
+  "torch": {
+    "cuda": "13.0",
+    "version": "2.11.0+cu130"
+  },
+  "vllm": {
+    "commit": "752a3a504485790a2e8491cacbb35c137339ad34",
+    "main_head_observed": "fca252d59efdb627549e5677263c69709590c982",
+    "published_at": "2026-07-14T08:51:20Z",
+    "pypi_files": {
+      "vllm-0.25.1-cp38-abi3-manylinux_2_28_aarch64.whl": "902be760af4c5ebfad8af5b8ea07a53ae14e5a6c839c8ab56da30581abb75ad2",
+      "vllm-0.25.1-cp38-abi3-manylinux_2_28_x86_64.whl": "16fc7a28df1576eb6f7ca0455026551b8f9adb674c19c66059359ef3e964bd1e",
+      "vllm-0.25.1.tar.gz": "ddbdec3f1c0f21afa70b7eb6ddf3faa29d26b1302ee4b5d5e00ec3af41b0c2e4"
+    },
+    "pypi_yanked": false,
+    "source_build": true,
+    "tag": "v0.25.1",
+    "version": "0.25.1"
   }
 }

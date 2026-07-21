@@ -3,7 +3,7 @@
 # Latest stable vLLM source build + Poolside-validated FlashInfer nightly
 # =============================================================================
 
-FROM ubuntu:24.04 AS builder
+FROM ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90 AS builder
 
 ARG VLLM_VERSION=0.25.1
 ARG VLLM_TAG=v0.25.1
@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb \
+    && echo "6ea7d2737648936820e85677177957a0f6521b840d98eb0bbae0a4f003fa7249  cuda-keyring_1.1-1_all.deb" | sha256sum -c - \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
     && rm cuda-keyring_1.1-1_all.deb \
     && apt-get update \
@@ -67,6 +68,10 @@ RUN python3 -m pip install --pre --upgrade --no-deps \
         "flashinfer-cubin==${FLASHINFER_VERSION}" \
         "flashinfer-jit-cache==${FLASHINFER_VERSION}" \
         --extra-index-url https://flashinfer.ai/whl/nightly/ \
+        --extra-index-url https://flashinfer.ai/whl/nightly/cu130/ \
+    && python3 -m pip install --upgrade \
+        "cuda-tile==1.5.0" "nccl4py==0.3.1" \
+        --extra-index-url https://flashinfer.ai/whl/nightly/ \
         --extra-index-url https://flashinfer.ai/whl/nightly/cu130/
 
 COPY scripts/check_dependencies.py /usr/local/bin/check_dependencies.py
@@ -87,8 +92,15 @@ from pathlib import Path
 import subprocess
 import torch
 assert md.version("vllm") == os.environ["VLLM_VERSION"], md.version("vllm")
-for package in ("flashinfer-python", "flashinfer-cubin", "flashinfer-jit-cache"):
-    assert md.version(package) == os.environ["FLASHINFER_VERSION"], (package, md.version(package))
+expected_flashinfer = {
+    "flashinfer-python": os.environ["FLASHINFER_VERSION"],
+    "flashinfer-cubin": os.environ["FLASHINFER_VERSION"],
+    "flashinfer-jit-cache": os.environ["FLASHINFER_VERSION"] + "+cu130",
+}
+for package, expected in expected_flashinfer.items():
+    assert md.version(package) == expected, (package, md.version(package), expected)
+assert md.version("cuda-tile") == "1.5.0", md.version("cuda-tile")
+assert md.version("nccl4py") == "0.3.1", md.version("nccl4py")
 assert torch.__version__.startswith("2.11.0+cu130"), torch.__version__
 assert torch.version.cuda == "13.0", torch.version.cuda
 assert "release 13.0" in subprocess.check_output(["/usr/local/cuda-13.0/bin/nvcc", "--version"], text=True)
@@ -103,7 +115,7 @@ for stem, minimum_size in (("_C_stable_libtorch", 100_000_000), ("_moe_C_stable_
 print("BUILDER_STATIC_ELF_AUDIT_PASS")
 PY
 
-FROM ubuntu:24.04 AS runtime
+FROM ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90 AS runtime
 
 ARG VLLM_VERSION=0.25.1
 ARG VLLM_TAG=v0.25.1
@@ -127,6 +139,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb \
+    && echo "6ea7d2737648936820e85677177957a0f6521b840d98eb0bbae0a4f003fa7249  cuda-keyring_1.1-1_all.deb" | sha256sum -c - \
     && dpkg -i cuda-keyring_1.1-1_all.deb \
     && rm cuda-keyring_1.1-1_all.deb \
     && apt-get update \

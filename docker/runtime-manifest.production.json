@@ -8,6 +8,15 @@
   "torch": "2.11.0+cu130",
   "cuda": "13.0",
   "flashinfer_version": "0.6.15.dev20260712",
+  "flashinfer_package_versions": {
+    "flashinfer-python": "0.6.15.dev20260712",
+    "flashinfer-cubin": "0.6.15.dev20260712",
+    "flashinfer-jit-cache": "0.6.15.dev20260712+cu130"
+  },
+  "cuda_tile": "1.5.0",
+  "nccl4py": "0.3.1",
+  "base_image": "ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90",
+  "flashinfer_cache_dir": "/var/cache/flashinfer",
   "target_arch": "sm_121",
   "model_id": "poolside/Laguna-S-2.1-NVFP4",
   "model_revision": "216d1f13878dd4e715bc7412848d0f330e95bba6",
