@@ -71,7 +71,7 @@ RUN python3 -m pip install --pre --upgrade --no-deps \
 
 COPY scripts/check_dependencies.py /usr/local/bin/check_dependencies.py
 RUN chmod 0755 /usr/local/bin/check_dependencies.py \
-    && /usr/local/bin/check_dependencies.py
+    && /usr/local/bin/check_dependencies.py --prebuild
 
 # The exact source build is its own cacheable layer, after fail-closed dependency
 # resolution and before fallible package/identity assertions.

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import importlib.metadata as metadata
 from pathlib import Path
 import platform
@@ -30,8 +31,9 @@ class Evaluation(NamedTuple):
     reason: str
 
 
-def evaluate(*, pip_returncode: int, pip_output: str, machine: str, installed: Mapping[str, str], sbsa_wheel_text: str = "", sbsa_elf_header: str = "") -> Evaluation:
-    for package, expected in EXPECTED.items():
+def evaluate(*, pip_returncode: int, pip_output: str, machine: str, installed: Mapping[str, str], sbsa_wheel_text: str = "", sbsa_elf_header: str = "", prebuild: bool = False) -> Evaluation:
+    required = {key: value for key, value in EXPECTED.items() if not (prebuild and key == "vllm")}
+    for package, expected in required.items():
         if installed.get(package) != expected:
             return Evaluation(False, f"{package} version mismatch: {installed.get(package)!r} != {expected!r}")
     lines = [line.strip() for line in pip_output.splitlines() if line.strip()]
@@ -39,12 +41,13 @@ def evaluate(*, pip_returncode: int, pip_output: str, machine: str, installed: M
         return Evaluation(True, "pip check passed without exceptions")
     if machine != "aarch64":
         return Evaluation(False, f"exceptions require aarch64, got {machine!r}")
-    unknown = [line for line in lines if line != KNOWN_SBSA_WARNING and not OVERLAY_RE.fullmatch(line)]
+    unknown = [line for line in lines if line != KNOWN_SBSA_WARNING and not (not prebuild and OVERLAY_RE.fullmatch(line))]
     if unknown:
         return Evaluation(False, f"unexpected pip check output: {unknown!r}")
-    overlay_packages = {OVERLAY_RE.fullmatch(line).group(1) for line in lines if OVERLAY_RE.fullmatch(line)}
-    if overlay_packages != {"flashinfer-python", "flashinfer-cubin"}:
-        return Evaluation(False, f"expected exact FlashInfer overlay warnings, got {sorted(overlay_packages)!r}")
+    if not prebuild:
+        overlay_packages = {OVERLAY_RE.fullmatch(line).group(1) for line in lines if OVERLAY_RE.fullmatch(line)}
+        if overlay_packages != {"flashinfer-python", "flashinfer-cubin"}:
+            return Evaluation(False, f"expected exact FlashInfer overlay warnings, got {sorted(overlay_packages)!r}")
     if KNOWN_SBSA_WARNING in lines:
         if installed.get("nvidia-cusparselt-cu13") != KNOWN_SBSA_VERSION:
             return Evaluation(False, "SBSA exception version mismatch")
@@ -52,10 +55,15 @@ def evaluate(*, pip_returncode: int, pip_output: str, machine: str, installed: M
             return Evaluation(False, "SBSA wheel tag is absent")
         if "Machine:" not in sbsa_elf_header or "AArch64" not in sbsa_elf_header:
             return Evaluation(False, "cuSPARSELt library is not an AArch64 ELF")
+    if prebuild:
+        return Evaluation(True, "prebuild dependencies passed with optional verified SBSA warning")
     return Evaluation(True, "accepted exact vLLM 0.25.1/FlashInfer nightly overlay and optional verified SBSA warning")
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--prebuild", action="store_true")
+    args = parser.parse_args()
     result = subprocess.run([sys.executable, "-m", "pip", "check"], text=True, capture_output=True, timeout=120, check=False)
     output = "\n".join(part.strip() for part in (result.stdout, result.stderr) if part.strip())
     installed: dict[str, str] = {}
@@ -75,7 +83,7 @@ def main() -> int:
         except Exception as exc:
             print(f"DEPENDENCY_CHECK_FAIL: SBSA verification failed: {exc!r}")
             return 1
-    evaluation = evaluate(pip_returncode=result.returncode, pip_output=output, machine=platform.machine(), installed=installed, sbsa_wheel_text=wheel_text, sbsa_elf_header=elf_header)
+    evaluation = evaluate(pip_returncode=result.returncode, pip_output=output, machine=platform.machine(), installed=installed, sbsa_wheel_text=wheel_text, sbsa_elf_header=elf_header, prebuild=args.prebuild)
     if output:
         print("PIP_CHECK_OUTPUT=" + output.replace("\n", " | "))
     print(("DEPENDENCY_CHECK_PASS: " if evaluation.ok else "DEPENDENCY_CHECK_FAIL: ") + evaluation.reason)

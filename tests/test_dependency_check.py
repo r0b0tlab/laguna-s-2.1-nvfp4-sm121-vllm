@@ -23,6 +23,18 @@ class DependencyCheckTests(unittest.TestCase):
         result = evaluate(pip_returncode=1, pip_output=FLASH_WARNINGS, machine="aarch64", installed=self.installed())
         self.assertTrue(result.ok, result.reason)
 
+    def test_prebuild_without_installed_vllm_passes(self) -> None:
+        installed = self.installed()
+        del installed["vllm"]
+        result = evaluate(pip_returncode=0, pip_output="", machine="aarch64", installed=installed, prebuild=True)
+        self.assertTrue(result.ok, result.reason)
+
+    def test_prebuild_rejects_runtime_overlay_warning(self) -> None:
+        installed = self.installed()
+        del installed["vllm"]
+        result = evaluate(pip_returncode=1, pip_output=FLASH_WARNINGS, machine="aarch64", installed=installed, prebuild=True)
+        self.assertFalse(result.ok)
+
     def test_exact_overlay_plus_verified_sbsa_passes(self) -> None:
         installed = self.installed()
         installed["nvidia-cusparselt-cu13"] = "0.8.0"

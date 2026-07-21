@@ -35,7 +35,7 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertIn("MAX_JOBS=4", text)
         self.assertIn("CUTE_DSL_ARCH=sm_121a", text)
         install = text.index("pip install --no-build-isolation --no-deps .")
-        dependency_check = text.index("/usr/local/bin/check_dependencies.py")
+        dependency_check = text.index("/usr/local/bin/check_dependencies.py --prebuild")
         static_audit = text.index("BUILDER_STATIC_ELF_AUDIT_PASS")
         self.assertLess(dependency_check, install)
         self.assertLess(install, static_audit)
