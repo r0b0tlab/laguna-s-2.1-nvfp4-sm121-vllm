@@ -1,0 +1,46 @@
+recipe_version: "2"
+name: laguna-s-2.1-nvfp4-vllm-r0b0tlab
+description: Laguna S 2.1 native NVFP4 routed experts on one GB10 with FP8 KV
+model: poolside/Laguna-S-2.1-NVFP4
+runtime: vllm
+runtime_version: "0.25.1"
+container: laguna-s21-sm121-vllm:v0.25.1-candidate
+min_nodes: 1
+max_nodes: 1
+metadata:
+  maintainer: r0b0tlab
+  model_params: 117.6B-A8.5B
+  model_dtype: nvfp4
+  kv_dtype: fp8
+  quantization: compressed-tensors
+  quant_bits: 4
+defaults:
+  host: 0.0.0.0
+  port: 8000
+  model_revision: 216d1f13878dd4e715bc7412848d0f330e95bba6
+  draft_model: poolside/Laguna-S-2.1-DFlash-NVFP4
+  draft_revision: 723794750422b3efbf3a7b3af76dffb4ba035943
+  tensor_parallel: 1
+  max_model_len: 262144
+  max_num_seqs: 32
+  max_num_batched_tokens: 8192
+  gpu_memory_utilization: 0.85
+  served_model_name: poolside/Laguna-S-2.1-NVFP4
+env:
+  MAX_JOBS: "4"
+  NVCC_THREADS: "2"
+  FLASHINFER_NVCC_THREADS: "2"
+  CUTE_DSL_ARCH: sm_121a
+command: |
+  vllm serve {model} --revision {model_revision} --served-model-name {served_model_name} \
+    --host {host} --port {port} -tp {tensor_parallel} --dtype bfloat16 \
+    --trust-remote-code --attention-backend FLASHINFER --kv-cache-dtype fp8 \
+    --max-model-len {max_model_len} --max-num-seqs {max_num_seqs} \
+    --max-num-batched-tokens {max_num_batched_tokens} \
+    --gpu-memory-utilization {gpu_memory_utilization} \
+    --reasoning-parser poolside_v1 --enable-auto-tool-choice \
+    --tool-call-parser poolside_v1 \
+    --override-generation-config '{"temperature":0.7,"top_p":0.95}'
+executor_config:
+  auto_remove: false
+  restart_policy: unless-stopped

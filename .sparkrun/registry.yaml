@@ -1,0 +1,5 @@
+registries:
+  - name: r0b0tlab
+    description: Reproducible GB10 / SM121 inference recipes from r0b0tlab
+    recipes: sparkrun/recipes
+    visible: true

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "resolved_at": "2026-07-21T18:46:50Z",
+  "resolution_policy": "newest GitHub non-draft non-prerelease release whose tag agrees with non-yanked PyPI info.version",
+  "sources": {
+    "github_latest": "https://api.github.com/repos/vllm-project/vllm/releases/latest",
+    "github_tags": "https://api.github.com/repos/vllm-project/vllm/tags",
+    "pypi": "https://pypi.org/pypi/vllm/json"
+  },
+  "vllm": {
+    "version": "0.25.1",
+    "tag": "v0.25.1",
+    "commit": "752a3a504485790a2e8491cacbb35c137339ad34",
+    "source_build": true,
+    "pypi_yanked": false,
+    "sdist_sha256": "ddbdec3f1c0f21afa70b7eb6ddf3faa29d26b1302ee4b5d5e00ec3af41b0c2e4",
+    "aarch64_wheel_sha256": "902be760af4c5ebfad8af5b8ea07a53ae14e5a6c839c8ab56da30581abb75ad2"
+  },
+  "torch": {
+    "version": "2.11.0+cu130",
+    "cuda": "13.0"
+  },
+  "flashinfer": {
+    "version": "0.6.15.dev20260712",
+    "packages": [
+      "flashinfer-python",
+      "flashinfer-cubin",
+      "flashinfer-jit-cache"
+    ],
+    "source": "Poolside Laguna S 2.1 GB10 recipe"
+  },
+  "models": {
+    "target": {
+      "id": "poolside/Laguna-S-2.1-NVFP4",
+      "revision": "216d1f13878dd4e715bc7412848d0f330e95bba6",
+      "architecture": "LagunaForCausalLM"
+    },
+    "draft": {
+      "id": "poolside/Laguna-S-2.1-DFlash-NVFP4",
+      "revision": "723794750422b3efbf3a7b3af76dffb4ba035943",
+      "architecture": "DFlashLagunaForCausalLM"
+    }
+  }
+}

@@ -1,0 +1,166 @@
+# =============================================================================
+# Laguna S 2.1 NVFP4 native SM121 production candidate
+# Latest stable vLLM source build + Poolside-validated FlashInfer nightly
+# =============================================================================
+
+FROM ubuntu:24.04 AS builder
+
+ARG VLLM_VERSION=0.25.1
+ARG VLLM_TAG=v0.25.1
+ARG VLLM_COMMIT=752a3a504485790a2e8491cacbb35c137339ad34
+ARG FLASHINFER_VERSION=0.6.15.dev20260712
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC \
+    CUDA_HOME=/usr/local/cuda-13.0 \
+    TORCH_CUDA_ARCH_LIST=12.1 \
+    VLLM_TARGET_DEVICE=cuda \
+    VLLM_USE_PRECOMPILED=0 \
+    MAX_JOBS=4 \
+    NVCC_THREADS=2
+ENV PATH=/opt/vllm/bin:${CUDA_HOME}/bin:${PATH}
+ENV LD_LIBRARY_PATH=${CUDA_HOME}/lib64:/usr/lib/aarch64-linux-gnu
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential binutils cmake git pkg-config python3.12 python3.12-dev \
+        python3.12-venv python3-pip wget ca-certificates gnupg \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb \
+    && dpkg -i cuda-keyring_1.1-1_all.deb \
+    && rm cuda-keyring_1.1-1_all.deb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        cuda-toolkit-13-0 cuda-nvcc-13-0 cuda-cudart-dev-13-0 \
+        cuda-libraries-dev-13-0 \
+    && rm -rf /var/lib/apt/lists/* \
+    && test "$(readlink -f /usr/local/cuda)" = "/usr/local/cuda-13.0" \
+    && nvcc --version | grep -F "release 13.0"
+
+RUN /usr/bin/python3 -m venv /opt/vllm \
+    && python3 -m pip install --upgrade pip setuptools wheel packaging \
+    && python3 -m pip install \
+        torch==2.11.0 torchvision==0.26.0 torchaudio==2.11.0 \
+        --index-url https://download.pytorch.org/whl/cu130
+
+RUN git init /workspace/vllm-src \
+    && git -C /workspace/vllm-src remote add origin https://github.com/vllm-project/vllm.git \
+    && git -C /workspace/vllm-src fetch --filter=blob:none --depth=1 origin \
+        "refs/tags/${VLLM_TAG}:refs/tags/${VLLM_TAG}" \
+    && git -C /workspace/vllm-src checkout --detach "refs/tags/${VLLM_TAG}" \
+    && test "$(git -C /workspace/vllm-src rev-parse HEAD)" = "${VLLM_COMMIT}" \
+    && test "$(git -C /workspace/vllm-src describe --tags --exact-match HEAD)" = "${VLLM_TAG}"
+
+WORKDIR /workspace/vllm-src
+
+RUN python3 -m pip install \
+        --extra-index-url https://download.pytorch.org/whl/cu130 \
+        -r requirements/cuda.txt \
+    && python3 -m pip install \
+        --extra-index-url https://download.pytorch.org/whl/cu130 \
+        -r requirements/build/cuda.txt
+
+# The exact source build is its own cacheable layer.
+RUN python3 -m pip install --no-build-isolation --no-deps .
+
+# Poolside's native GB10 recipe requires the matching nightly trio. Install it
+# after vLLM so the release's 0.6.13 requirement cannot overwrite it.
+RUN python3 -m pip install --pre --upgrade --no-deps \
+        "flashinfer-python==${FLASHINFER_VERSION}" \
+        "flashinfer-cubin==${FLASHINFER_VERSION}" \
+        "flashinfer-jit-cache==${FLASHINFER_VERSION}" \
+        --extra-index-url https://flashinfer.ai/whl/nightly/ \
+        --extra-index-url https://flashinfer.ai/whl/nightly/cu130/
+
+WORKDIR /
+
+# Device-free static checks only; GPU imports run in the fail-closed runtime audit.
+RUN VLLM_VERSION="${VLLM_VERSION}" FLASHINFER_VERSION="${FLASHINFER_VERSION}" python3 - <<'PY'
+import importlib.metadata as md
+import os
+from pathlib import Path
+import subprocess
+import torch
+assert md.version("vllm") == os.environ["VLLM_VERSION"], md.version("vllm")
+for package in ("flashinfer-python", "flashinfer-cubin", "flashinfer-jit-cache"):
+    assert md.version(package) == os.environ["FLASHINFER_VERSION"], (package, md.version(package))
+assert torch.__version__.startswith("2.11.0+cu130"), torch.__version__
+assert torch.version.cuda == "13.0", torch.version.cuda
+assert "release 13.0" in subprocess.check_output(["/usr/local/cuda-13.0/bin/nvcc", "--version"], text=True)
+vllm_root = Path(md.distribution("vllm").locate_file("vllm"))
+for stem, minimum_size in (("_C_stable_libtorch", 100_000_000), ("_moe_C_stable_libtorch", 20_000_000)):
+    matches = list(vllm_root.glob(f"{stem}.*.so"))
+    assert len(matches) == 1, (stem, matches)
+    extension = matches[0]
+    assert extension.stat().st_size >= minimum_size, (extension, extension.stat().st_size)
+    elf_header = subprocess.check_output(["readelf", "-h", extension], text=True)
+    assert "Machine:" in elf_header and "AArch64" in elf_header, elf_header
+print("BUILDER_STATIC_ELF_AUDIT_PASS")
+PY
+
+FROM ubuntu:24.04 AS runtime
+
+ARG VLLM_VERSION=0.25.1
+ARG VLLM_TAG=v0.25.1
+ARG VLLM_COMMIT=752a3a504485790a2e8491cacbb35c137339ad34
+ARG FLASHINFER_VERSION=0.6.15.dev20260712
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=UTC \
+    CUDA_HOME=/usr/local/cuda-13.0 \
+    MAX_JOBS=4 \
+    NVCC_THREADS=2 \
+    FLASHINFER_NVCC_THREADS=2 \
+    CUTE_DSL_ARCH=sm_121a \
+    FLASHINFER_CACHE_DIR=/root/.cache/flashinfer
+ENV PATH=/opt/vllm/bin:${CUDA_HOME}/bin:/usr/local/bin:${PATH}
+ENV LD_LIBRARY_PATH=${CUDA_HOME}/lib64:/usr/lib/aarch64-linux-gnu
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3.12 python3.12-dev python3-pip ca-certificates curl wget gnupg \
+        build-essential binutils ninja-build pkg-config libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/sbsa/cuda-keyring_1.1-1_all.deb \
+    && dpkg -i cuda-keyring_1.1-1_all.deb \
+    && rm cuda-keyring_1.1-1_all.deb \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        cuda-cudart-13-0 cuda-libraries-13-0 cuda-nvrtc-13-0 cuda-nvtx-13-0 \
+        cuda-nvcc-13-0 cuda-libraries-dev-13-0 libcublas-13-0 \
+        libcusparse-13-0 libcusolver-13-0 libcurand-13-0 libcufft-13-0 \
+    && rm -rf /var/lib/apt/lists/* \
+    && test "$(readlink -f /usr/local/cuda)" = "/usr/local/cuda-13.0" \
+    && nvcc --version | grep -F "release 13.0"
+
+COPY --from=builder /opt/vllm/ /opt/vllm/
+
+ARG IMAGE_REVISION=uncommitted
+LABEL org.opencontainers.image.title="Laguna S 2.1 NVFP4 SM121 vLLM runtime" \
+      org.opencontainers.image.description="Latest stable vLLM with Poolside-validated native FlashInfer NVFP4 and FP8 KV" \
+      org.opencontainers.image.source="https://github.com/r0b0tlab/laguna-s-2.1-nvfp4-sm121-vllm" \
+      org.opencontainers.image.url="https://github.com/r0b0tlab/laguna-s-2.1-nvfp4-sm121-vllm" \
+      org.opencontainers.image.revision="${IMAGE_REVISION}" \
+      org.opencontainers.image.version="${VLLM_VERSION}-candidate" \
+      org.opencontainers.image.licenses="MIT AND Apache-2.0" \
+      io.r0b0tlab.project="laguna-s-2.1-nvfp4" \
+      io.r0b0tlab.upstream.vllm.revision="${VLLM_COMMIT}" \
+      io.r0b0tlab.upstream.vllm.tag="${VLLM_TAG}" \
+      io.r0b0tlab.vllm.package.version="${VLLM_VERSION}" \
+      io.r0b0tlab.upstream.flashinfer.version="${FLASHINFER_VERSION}" \
+      io.r0b0tlab.profile="production-fp8-ar-candidate" \
+      io.r0b0tlab.model.id="poolside/Laguna-S-2.1-NVFP4" \
+      io.r0b0tlab.model.revision="216d1f13878dd4e715bc7412848d0f330e95bba6" \
+      io.r0b0tlab.draft.id="poolside/Laguna-S-2.1-DFlash-NVFP4" \
+      io.r0b0tlab.draft.revision="723794750422b3efbf3a7b3af76dffb4ba035943"
+
+COPY docker/runtime-manifest.production.json /opt/r0b0tlab/runtime-manifest.json
+COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY scripts/audit_runtime.py /usr/local/bin/audit_runtime.py
+COPY scripts/check_dependencies.py /usr/local/bin/check_dependencies.py
+RUN chmod 0755 /usr/local/bin/entrypoint.sh /usr/local/bin/audit_runtime.py /usr/local/bin/check_dependencies.py \
+    && chmod 0644 /opt/r0b0tlab/runtime-manifest.json \
+    && command -v vllm \
+    && VLLM_VERSION="${VLLM_VERSION}" FLASHINFER_VERSION="${FLASHINFER_VERSION}" python3 -c 'import importlib.metadata as md,os; assert md.version("vllm")==os.environ["VLLM_VERSION"]; assert md.version("flashinfer-python")==os.environ["FLASHINFER_VERSION"]'
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

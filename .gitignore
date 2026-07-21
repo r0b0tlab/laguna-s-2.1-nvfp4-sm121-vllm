@@ -1,0 +1,43 @@
+# Private agent state and raw evidence
+.hermes/
+private/
+STATUS.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Build and runtime artefacts
+build/
+dist/
+*.whl
+*.tar.gz
+*.nsys-rep
+*.sqlite
+*.log
+*.pid
+*.rc
+*.timestamp
+
+# Model and dependency caches
+models/
+model-cache/
+wheel-cache/
+flashinfer-cache/
+.hf/
+
+# Generated raw benchmark data; curated results are force-added deliberately
+results/raw/
+results/**/raw/
+results/**/samples.jsonl
+results/**/telemetry.jsonl
+results/**/server.log
+
+# Credentials and local overrides
+.env
+.env.*
+!.env.example
+*.pem
+*.key
