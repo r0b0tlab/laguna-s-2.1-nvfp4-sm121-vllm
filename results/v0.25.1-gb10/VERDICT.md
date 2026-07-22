@@ -11,3 +11,10 @@ Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07
 - Context retrieval: PASS at beginning/middle/end through 261,885 reported prompt tokens
 - Non-root full inference: PASS as UID/GID 65532
 - Nsight native FP4 gate: PASS
+
+## Publication verification
+
+- Public GitHub repository and release: PASS
+- Public immutable GHCR manifest: PASS
+- Anonymous immutable GHCR pull: PASS
+- Anonymous clean clone, 48 tests, release verifier, and SparkRun 0.2.40 recipe validation: PASS

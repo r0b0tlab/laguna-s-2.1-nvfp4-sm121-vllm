@@ -6,14 +6,14 @@ This repository follows r0b0tlab's proven release-contract structure: immutable 
 
 ## Status
 
-Implementation candidate. No performance, quality, context, registry, or release claim is made until `VERDICT.md` and the checksummed public result bundle exist.
+Qualified production release. The checksummed [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), and [HTML report](results/v0.25.1-gb10/benchmark.html) cover native kernels, AR, DFlash, performance, power, quality, 262K context, non-root execution, and publication gates.
 
 ## Exact model contract
 
 | Component | Identity |
 |---|---|
 | Target | `poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6` |
-| Optional draft | `poolside/Laguna-S-2.1-DFlash-NVFP4@723794750422b3efbf3a7b3af76dffb4ba035943` |
+| Production draft | `poolside/Laguna-S-2.1-DFlash-NVFP4@723794750422b3efbf3a7b3af76dffb4ba035943` |
 | KV cache | FP8 |
 | Configured context | 262,144 tokens |
 | Reasoning/tool parsers | `poolside_v1` |
@@ -51,14 +51,15 @@ The durable build writes its log, return code, image inspection, and PASS/FAIL s
 
 ```bash
 docker run --rm --gpus all --ipc=host --network host \
+  -e DFLASH_TOKENS=0 \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
   ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
 ```
 
-The default remains AR until the DFlash depth sweep is complete.
+AR remains the independent correctness baseline. The production image defaults to the qualified DFlash K=7 profile; set `DFLASH_TOKENS=0` explicitly for AR.
 
-## Run DFlash candidate
+## Run the production DFlash profile
 
 ```bash
 docker run --rm --gpus all --ipc=host --network host \
