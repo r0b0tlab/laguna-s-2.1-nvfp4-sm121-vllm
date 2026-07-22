@@ -16,4 +16,4 @@ Local validation:
 sparkrun recipe validate sparkrun/recipes/laguna-s-2.1-nvfp4-vllm-r0b0tlab.yaml
 ```
 
-The recipe intentionally defaults to AR until the matched DFlash depth sweep selects and qualifies a production K. It keeps FP8 KV, 262,144-token configured context, Poolside parsers, and capped FlashInfer JIT fan-out.
+The qualified recipe defaults to DFlash K=7, selected by the matched K={3,5,7,11,15} sweep. It keeps FP8 KV, 262,144-token configured context, Poolside parsers, and capped FlashInfer JIT fan-out.

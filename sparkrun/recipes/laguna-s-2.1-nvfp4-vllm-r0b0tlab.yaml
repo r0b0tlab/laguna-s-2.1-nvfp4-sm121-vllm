@@ -9,7 +9,7 @@ min_nodes: 1
 max_nodes: 1
 metadata:
   maintainer: r0b0tlab
-  model_params: 117.6B-A8.5B
+  model_params: 117.6B
   model_dtype: nvfp4
   kv_dtype: fp8
   quantization: compressed-tensors
