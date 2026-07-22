@@ -169,7 +169,7 @@ LABEL org.opencontainers.image.title="Laguna S 2.1 NVFP4 SM121 vLLM runtime" \
       io.r0b0tlab.upstream.flashinfer.version="${FLASHINFER_VERSION}" \
       io.r0b0tlab.profile="production-fp8-dflash-k7" \
       io.r0b0tlab.model.id="poolside/Laguna-S-2.1-NVFP4" \
-      io.r0b0tlab.model.revision="216d1f13878dd4e715bc7412848d0f330e95bba6" \
+      io.r0b0tlab.model.revision="07614121b31898586430f189d27a25a0be310843" \
       io.r0b0tlab.draft.id="poolside/Laguna-S-2.1-DFlash-NVFP4" \
       io.r0b0tlab.draft.revision="723794750422b3efbf3a7b3af76dffb4ba035943"
 

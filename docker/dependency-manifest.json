@@ -31,7 +31,7 @@
     "target": {
       "architecture": "LagunaForCausalLM",
       "id": "poolside/Laguna-S-2.1-NVFP4",
-      "revision": "216d1f13878dd4e715bc7412848d0f330e95bba6"
+      "revision": "07614121b31898586430f189d27a25a0be310843"
     }
   },
   "resolution_policy": "newest GitHub non-draft non-prerelease release whose tag agrees with non-yanked PyPI info.version",

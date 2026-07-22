@@ -9,7 +9,7 @@ The target model is never replaced by a similarly named Laguna checkpoint. `pool
 ## Release identity
 
 - Target: `poolside/Laguna-S-2.1-NVFP4`
-- Target revision: `216d1f13878dd4e715bc7412848d0f330e95bba6`
+- Target revision: `07614121b31898586430f189d27a25a0be310843`
 - Draft: `poolside/Laguna-S-2.1-DFlash-NVFP4`
 - Draft revision: `723794750422b3efbf3a7b3af76dffb4ba035943`
 - Platform: NVIDIA GB10 / SM121, aarch64

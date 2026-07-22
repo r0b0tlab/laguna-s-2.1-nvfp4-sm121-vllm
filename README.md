@@ -6,13 +6,13 @@ This repository follows r0b0tlab's proven release-contract structure: immutable 
 
 ## Status
 
-Qualified production release. The checksummed [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), [HTML report](results/v0.25.1-gb10/benchmark.html), and [full 8,620-case scorecard](results/v0.25.1-gb10/full-battery/REPORT.md) cover native kernels, AR, DFlash, performance, power, quality, 262K context, non-root execution, and publication gates.
+The production contract now follows Poolside's updated `0761412` "spinquantless norot weights, 256K" checkpoint while retaining the previously qualified vLLM 0.25.1, native SM121, FP8 KV, and DFlash K=7 profile. The checksummed [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), [HTML report](results/v0.25.1-gb10/benchmark.html), and [full 8,620-case scorecard](results/v0.25.1-gb10/full-battery/REPORT.md) remain historical evidence for the initial `216d1f1` checkpoint; updated revision-scoped sanity and llama-benchy evidence is published separately.
 
 ## Exact model contract
 
 | Component | Identity |
 |---|---|
-| Target | `poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6` |
+| Target | `poolside/Laguna-S-2.1-NVFP4@07614121b31898586430f189d27a25a0be310843` |
 | Production draft | `poolside/Laguna-S-2.1-DFlash-NVFP4@723794750422b3efbf3a7b3af76dffb4ba035943` |
 | KV cache | FP8 |
 | Configured context | 262,144 tokens |
@@ -141,4 +141,4 @@ Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07
 
 GHCR package: [vllm-laguna-s-2.1-nvfp4-sm121](https://github.com/orgs/r0b0tlab/packages/container/package/vllm-laguna-s-2.1-nvfp4-sm121)
 
-The release pins target `216d1f13878dd4e715bc7412848d0f330e95bba6`, draft `723794750422b3efbf3a7b3af76dffb4ba035943`, and vLLM commit `752a3a504485790a2e8491cacbb35c137339ad34`. See [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), and the [HTML report](results/v0.25.1-gb10/benchmark.html).
+The current contract pins target `07614121b31898586430f189d27a25a0be310843`, draft `723794750422b3efbf3a7b3af76dffb4ba035943`, and vLLM commit `752a3a504485790a2e8491cacbb35c137339ad34`. The original [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), and [HTML report](results/v0.25.1-gb10/benchmark.html) remain explicitly bound to target `216d1f13878dd4e715bc7412848d0f330e95bba6`.

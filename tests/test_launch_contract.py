@@ -93,7 +93,7 @@ class LaunchContractTests(unittest.TestCase):
     def test_recipe_is_exact_production_contract(self) -> None:
         text = RECIPE.read_text()
         self.assertIn("model: poolside/Laguna-S-2.1-NVFP4", text)
-        self.assertIn("model_revision: 216d1f13878dd4e715bc7412848d0f330e95bba6", text)
+        self.assertIn("model_revision: 07614121b31898586430f189d27a25a0be310843", text)
         self.assertIn("draft_revision: 723794750422b3efbf3a7b3af76dffb4ba035943", text)
         self.assertIn("--kv-cache-dtype fp8", text)
         self.assertIn("max_model_len: 262144", text)

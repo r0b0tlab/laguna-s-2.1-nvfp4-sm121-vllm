@@ -2,7 +2,7 @@
 
 ## Target checkpoint
 
-`poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6` is a 48-layer sparse MoE model with hidden size 3,072, 48 attention heads, eight KV heads, 256 routed experts, and top-10 routing. The checkpoint quantizes routed expert gate/up/down projections using compressed-tensors `nvfp4-pack-quantized`; non-targeted parameters retain their published dtypes.
+`poolside/Laguna-S-2.1-NVFP4@07614121b31898586430f189d27a25a0be310843` is Poolside's updated "spinquantless norot weights, 256K" checkpoint. It is a 48-layer sparse MoE model with hidden size 3,072, 48 attention heads, eight KV heads, 256 routed experts, and top-10 routing. The checkpoint quantizes routed expert gate/up/down projections using compressed-tensors `nvfp4-pack-quantized`; non-targeted parameters retain their published dtypes.
 
 The model alternates full and 512-token sliding-window attention and uses distinct RoPE policies. Full-attention layers use YaRN for the 262,144-token envelope. The runtime must preserve the model's per-layer attention behavior; applying the sliding window globally is incorrect.
 

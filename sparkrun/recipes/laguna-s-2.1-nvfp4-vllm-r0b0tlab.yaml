@@ -17,7 +17,7 @@ metadata:
 defaults:
   host: 0.0.0.0
   port: 8000
-  model_revision: 216d1f13878dd4e715bc7412848d0f330e95bba6
+  model_revision: 07614121b31898586430f189d27a25a0be310843
   draft_model: poolside/Laguna-S-2.1-DFlash-NVFP4
   draft_revision: 723794750422b3efbf3a7b3af76dffb4ba035943
   tensor_parallel: 1

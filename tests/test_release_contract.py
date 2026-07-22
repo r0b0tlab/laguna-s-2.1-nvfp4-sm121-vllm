@@ -47,7 +47,7 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertEqual(dependency["vllm"]["version"], "0.25.1")
         self.assertEqual(dependency["vllm"]["commit"], "752a3a504485790a2e8491cacbb35c137339ad34")
         self.assertEqual(runtime["model_id"], "poolside/Laguna-S-2.1-NVFP4")
-        self.assertEqual(runtime["model_revision"], "216d1f13878dd4e715bc7412848d0f330e95bba6")
+        self.assertEqual(runtime["model_revision"], "07614121b31898586430f189d27a25a0be310843")
         self.assertEqual(runtime["draft_model_id"], "poolside/Laguna-S-2.1-DFlash-NVFP4")
         self.assertEqual(runtime["draft_model_revision"], "723794750422b3efbf3a7b3af76dffb4ba035943")
         self.assertEqual(runtime["default_kv_cache_dtype"], "fp8")

@@ -19,7 +19,7 @@
   "flashinfer_cache_dir": "/var/cache/flashinfer",
   "target_arch": "sm_121",
   "model_id": "poolside/Laguna-S-2.1-NVFP4",
-  "model_revision": "216d1f13878dd4e715bc7412848d0f330e95bba6",
+  "model_revision": "07614121b31898586430f189d27a25a0be310843",
   "model_architecture": "LagunaForCausalLM",
   "draft_model_id": "poolside/Laguna-S-2.1-DFlash-NVFP4",
   "draft_model_revision": "723794750422b3efbf3a7b3af76dffb4ba035943",
