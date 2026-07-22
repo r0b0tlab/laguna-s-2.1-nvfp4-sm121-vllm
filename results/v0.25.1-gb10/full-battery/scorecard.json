@@ -1,0 +1,227 @@
+{
+  "admission": {
+    "baseline_concurrency": 1,
+    "candidate_reports": [
+      {
+        "concurrency": 2,
+        "different_tasks": [],
+        "semantic_match_to_c1": true
+      },
+      {
+        "concurrency": 4,
+        "different_tasks": [
+          "winogrande"
+        ],
+        "semantic_match_to_c1": false
+      },
+      {
+        "concurrency": 8,
+        "different_tasks": [
+          "winogrande"
+        ],
+        "semantic_match_to_c1": false
+      },
+      {
+        "concurrency": 16,
+        "different_tasks": [],
+        "semantic_match_to_c1": true
+      }
+    ],
+    "probes_per_concurrency": 15,
+    "selected_concurrency": 2,
+    "selection_rule": "highest contiguous exact semantic match to c1 across c2,c4,c8,c16",
+    "status": "PASS"
+  },
+  "calibration": {
+    "items_per_repeat": 105,
+    "repeats": 2,
+    "semantic_disagreements": 6,
+    "status": "PASS"
+  },
+  "completion_contract": "every logical case has a persisted scoreable verdict; no composite score",
+  "diagnostics": {
+    "generated_empty_content": 0,
+    "generated_extraction_failures": 11,
+    "generated_length_stops": 0,
+    "humaneval_timeouts": 0,
+    "ifeval_length_stops": 2
+  },
+  "excluded_calibration_cases": 210,
+  "final_validation_sha256": "879319536b3cf1d39d455a47eb0907098555f3974362263445b970d89e27c1bf",
+  "generated_answer": {
+    "accuracy": 0.8863253402462735,
+    "correct": 6838,
+    "n": 7715,
+    "tasks": {
+      "arc_challenge": {
+        "accuracy": 0.9573378839590444,
+        "completion_tokens": 185825,
+        "correct": 1122,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 1172
+      },
+      "gsm8k": {
+        "accuracy": 0.9552691432903715,
+        "completion_tokens": 208855,
+        "correct": 1260,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 1319
+      },
+      "mmlu_abstract_algebra": {
+        "accuracy": 0.81,
+        "completion_tokens": 30161,
+        "correct": 81,
+        "empty_content": 0,
+        "extraction_failures": 11,
+        "length_stops": 0,
+        "n": 100
+      },
+      "mmlu_business_ethics": {
+        "accuracy": 0.82,
+        "completion_tokens": 15999,
+        "correct": 82,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 100
+      },
+      "mmlu_clinical_knowledge": {
+        "accuracy": 0.8641509433962264,
+        "completion_tokens": 51791,
+        "correct": 229,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 265
+      },
+      "mmlu_college_biology": {
+        "accuracy": 0.9652777777777778,
+        "completion_tokens": 29640,
+        "correct": 139,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 144
+      },
+      "mmlu_computer_security": {
+        "accuracy": 0.83,
+        "completion_tokens": 15670,
+        "correct": 83,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 100
+      },
+      "mmlu_conceptual_physics": {
+        "accuracy": 0.9319148936170213,
+        "completion_tokens": 35380,
+        "correct": 219,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 235
+      },
+      "mmlu_high_school_world_history": {
+        "accuracy": 0.9071729957805907,
+        "completion_tokens": 46700,
+        "correct": 215,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 237
+      },
+      "mmlu_international_law": {
+        "accuracy": 0.9008264462809917,
+        "completion_tokens": 23162,
+        "correct": 109,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 121
+      },
+      "piqa": {
+        "accuracy": 0.9303590859630033,
+        "completion_tokens": 175966,
+        "correct": 1710,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 1838
+      },
+      "truthfulqa_mc1": {
+        "accuracy": 0.7135862913096696,
+        "completion_tokens": 129033,
+        "correct": 583,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 817
+      },
+      "winogrande": {
+        "accuracy": 0.7940015785319653,
+        "completion_tokens": 103043,
+        "correct": 1006,
+        "empty_content": 0,
+        "extraction_failures": 0,
+        "length_stops": 0,
+        "n": 1267
+      }
+    }
+  },
+  "humaneval": {
+    "completion_tokens": 21724,
+    "length_stops": 0,
+    "n": 164,
+    "pass_at_1": 0.9390243902439024,
+    "passed": 154,
+    "sandbox_infrastructure_ok": true
+  },
+  "ifeval": {
+    "completion_tokens": 253777,
+    "instruction_loose": 0.9088729016786571,
+    "instruction_strict": 0.8752997601918465,
+    "instructions": 834,
+    "length_stops": 2,
+    "n": 541,
+    "prompt_loose": 0.866913123844732,
+    "prompt_strict": 0.8243992606284658
+  },
+  "logical_cases": 8620,
+  "official_bfcl_v4_multi_turn_base": {
+    "accuracy": 0.685,
+    "correct_count": 137,
+    "total_count": 200
+  },
+  "performance_context_evidence": {
+    "context_status": "PASS",
+    "nsight_status": "PASS",
+    "performance_status": "PASS",
+    "reuse": "hash-equivalent immutable image/profile; no redundant rerun",
+    "source_sha256": "43600a788229ba27ce8abf0f39c6303ff49d4752bc348e94cb0786bcfa3f7f60",
+    "source_url": "https://raw.githubusercontent.com/r0b0tlab/laguna-s-2.1-nvfp4-sm121-vllm/89808662ca49e2e772b52dcf0c4573c0f5e3ff10/results/v0.25.1-gb10/summary.json"
+  },
+  "run_id": "20260722T031752Z-laguna-s21-dflash-k7",
+  "runtime": {
+    "image_digest": "sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3",
+    "image_id": "sha256:cc152674d09efa20f0e082c967c23958b7d0db9b1b7a5abf274da9a22fd9b080",
+    "model": "poolside/Laguna-S-2.1-NVFP4",
+    "profile": {
+      "dflash_tokens": 7,
+      "gpu_memory_utilization": 0.85,
+      "kv_cache_dtype": "fp8",
+      "max_model_len": 262144,
+      "max_num_batched_tokens": 8192,
+      "max_num_seqs": 32,
+      "memory_profiler_estimate_cudagraphs": false,
+      "name": "production-fp8-dflash-k7"
+    },
+    "quality_concurrency": 2
+  },
+  "schema_version": 1,
+  "status": "PASS",
+  "suite": "r0b0bench-core-v1-rc2"
+}

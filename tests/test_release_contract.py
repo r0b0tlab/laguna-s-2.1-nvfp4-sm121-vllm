@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -11,6 +12,35 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseContractTests(unittest.TestCase):
+    def test_full_battery_bundle(self) -> None:
+        results = ROOT / "results/v0.25.1-gb10"
+        full = results / "full-battery"
+        summary = json.loads((results / "summary.json").read_text())
+        battery = summary["full_battery"]
+        scorecard_path = full / "scorecard.json"
+        scorecard = json.loads(scorecard_path.read_text())
+
+        self.assertEqual((battery["status"], battery["suite"], battery["logical_cases"]), ("PASS", "r0b0bench-core-v1-rc2", 8620))
+        self.assertEqual(battery["official_bfcl_v4_multi_turn_base"], {"accuracy": 0.685, "correct": 137, "n": 200})
+        self.assertEqual(battery["generated_answer"]["correct"], 6838)
+        self.assertEqual(battery["humaneval"]["passed"], 154)
+        self.assertEqual(scorecard["status"], "PASS")
+        self.assertEqual(scorecard["logical_cases"], 8620)
+        self.assertEqual(scorecard["official_bfcl_v4_multi_turn_base"]["total_count"], 200)
+        self.assertEqual(scorecard["humaneval"]["n"], 164)
+        self.assertEqual(hashlib.sha256(scorecard_path.read_bytes()).hexdigest(), battery["scorecard"]["sha256"])
+
+        readme = (ROOT / "README.md").read_text()
+        verdict = (results / "VERDICT.md").read_text()
+        report = (full / "REPORT.md").read_text()
+        methodology = (full / "METHODOLOGY.md").read_text()
+        manifest = (results / "MANIFEST.sha256").read_text()
+        for text in (readme, verdict, report):
+            self.assertIn("8,620", text)
+        self.assertIn("BFCL v4", methodology)
+        for name in ("full-battery/scorecard.json", "full-battery/REPORT.md", "full-battery/METHODOLOGY.md", "full-battery/SHA256SUMS"):
+            self.assertIn(name, manifest)
+
     def test_exact_model_and_runtime_manifests(self) -> None:
         dependency = json.loads((ROOT / "docker/dependency-manifest.json").read_text())
         runtime = json.loads((ROOT / "docker/runtime-manifest.production.json").read_text())

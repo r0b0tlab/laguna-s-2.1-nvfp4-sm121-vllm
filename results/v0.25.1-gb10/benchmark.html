@@ -1,4 +1,4 @@
-<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Laguna S 2.1 NVFP4 — GB10 report</title><style>body{font:16px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#16202a}h1,h2{line-height:1.2}.ok{color:#086b36;font-weight:700}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #ccd5df;padding:.45rem;text-align:right}th:first-child,td:first-child{text-align:left}pre{background:#f5f7fa;padding:1rem;overflow:auto}code{font-family:ui-monospace,monospace}</style></head><body><h1>Laguna S 2.1 NVFP4 on NVIDIA GB10</h1><p class='ok'>Release status: PASS</p><p>Exact target <code>poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6</code>. Production profile uses FP8 KV and DFlash K=7.</p><h2>Performance</h2><table><thead><tr><th>Concurrency</th><th>Output tok/s</th><th>Prompt tok/s</th><th>TTFT p50 s</th><th>ITL p50 s</th><th>Power W</th><th>Accepted length</th></tr></thead><tbody><tr><td>1</td><td>44.2299623670345</td><td>57.29790579365834</td><td>0.2783456409815699</td><td>0.10210584208834916</td><td>39.83</td><td>0.8181818181818182</td></tr><tr><td>2</td><td>71.21673871290474</td><td>97.8157616056764</td><td>0.44091332546668127</td><td>0.11172925605205819</td><td>41.644999999999996</td><td>0.8313253012048193</td></tr><tr><td>4</td><td>112.23438659008112</td><td>154.15325387071383</td><td>0.5252784804906696</td><td>0.13985798449721187</td><td>42.394999999999996</td><td>0.8313253012048193</td></tr><tr><td>8</td><td>197.4266724942283</td><td>282.20450334935254</td><td>0.5656565094832331</td><td>0.15541542193386704</td><td>45.364999999999995</td><td>0.8318042813455657</td></tr><tr><td>16</td><td>350.5399510556582</td><td>492.5923503278279</td><td>0.6115527244983241</td><td>0.17360518395435065</td><td>46.739999999999995</td><td>0.8228043143297381</td></tr><tr><td>32</td><td>605.4183674753336</td><td>857.3626570458141</td><td>0.7271910520503297</td><td>0.1965829050168395</td><td>50.6125</td><td>0.8290796597061099</td></tr></tbody></table><h2>Release identity</h2><pre>{
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Laguna S 2.1 NVFP4 — GB10 report</title><style>body{font:16px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#16202a}h1,h2{line-height:1.2}.ok{color:#086b36;font-weight:700}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #ccd5df;padding:.45rem;text-align:right}th:first-child,td:first-child{text-align:left}pre{background:#f5f7fa;padding:1rem;overflow:auto}code{font-family:ui-monospace,monospace}</style></head><body><h1>Laguna S 2.1 NVFP4 on NVIDIA GB10</h1><p class='ok'>Release status: PASS</p><p>Exact target <code>poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6</code>. Production profile uses FP8 KV and DFlash K=7.</p><h2>Performance</h2><table><thead><tr><th>Concurrency</th><th>Output tok/s</th><th>Prompt tok/s</th><th>TTFT p50 s</th><th>ITL p50 s</th><th>Power W</th><th>Accepted length</th></tr></thead><tbody><tr><td>1</td><td>44.2299623670345</td><td>57.29790579365834</td><td>0.2783456409815699</td><td>0.10210584208834916</td><td>39.83</td><td>0.8181818181818182</td></tr><tr><td>2</td><td>71.21673871290474</td><td>97.8157616056764</td><td>0.44091332546668127</td><td>0.11172925605205819</td><td>41.644999999999996</td><td>0.8313253012048193</td></tr><tr><td>4</td><td>112.23438659008112</td><td>154.15325387071383</td><td>0.5252784804906696</td><td>0.13985798449721187</td><td>42.394999999999996</td><td>0.8313253012048193</td></tr><tr><td>8</td><td>197.4266724942283</td><td>282.20450334935254</td><td>0.5656565094832331</td><td>0.15541542193386704</td><td>45.364999999999995</td><td>0.8318042813455657</td></tr><tr><td>16</td><td>350.5399510556582</td><td>492.5923503278279</td><td>0.6115527244983241</td><td>0.17360518395435065</td><td>46.739999999999995</td><td>0.8228043143297381</td></tr><tr><td>32</td><td>605.4183674753336</td><td>857.3626570458141</td><td>0.7271910520503297</td><td>0.1965829050168395</td><td>50.6125</td><td>0.8290796597061099</td></tr></tbody></table><h2>Full 8,620-case benchmark battery</h2><p class='ok'>Battery status: PASS</p><table><thead><tr><th>Pillar</th><th>Result</th></tr></thead><tbody><tr><td>BFCL v4 multi_turn_base</td><td>137/200 (68.50%)</td></tr><tr><td>Generated-answer quality</td><td>6838/7715 (88.63%)</td></tr><tr><td>IFEval prompt strict / loose</td><td>82.44% / 86.69%</td></tr><tr><td>IFEval instruction strict / loose</td><td>87.53% / 90.89%</td></tr><tr><td>HumanEval pass@1</td><td>154/164 (93.90%)</td></tr></tbody></table><p><a href='full-battery/REPORT.md'>Human-readable scorecard</a> · <a href='full-battery/scorecard.json'>Machine-readable scorecard</a> · <a href='full-battery/METHODOLOGY.md'>Methodology</a></p><h2>Release identity</h2><pre>{
   &quot;cuda&quot;: &quot;13.0&quot;,
   &quot;draft_model_id&quot;: &quot;poolside/Laguna-S-2.1-DFlash-NVFP4&quot;,
   &quot;draft_model_revision&quot;: &quot;723794750422b3efbf3a7b3af76dffb4ba035943&quot;,
@@ -307,6 +307,58 @@
       11,
       15
     ]
+  },
+  &quot;full_battery&quot;: {
+    &quot;completion_contract&quot;: &quot;every logical case has a persisted scoreable verdict; no opaque composite score&quot;,
+    &quot;diagnostics&quot;: {
+      &quot;calibration_semantic_disagreements&quot;: 6,
+      &quot;generated_empty_outputs&quot;: 0,
+      &quot;generated_extraction_failures&quot;: 11,
+      &quot;generated_length_stops&quot;: 0
+    },
+    &quot;excluded_calibration_cases&quot;: 210,
+    &quot;final_validation_sha256&quot;: &quot;879319536b3cf1d39d455a47eb0907098555f3974362263445b970d89e27c1bf&quot;,
+    &quot;generated_answer&quot;: {
+      &quot;accuracy&quot;: 0.8863253402462735,
+      &quot;correct&quot;: 6838,
+      &quot;n&quot;: 7715
+    },
+    &quot;humaneval&quot;: {
+      &quot;n&quot;: 164,
+      &quot;pass_at_1&quot;: 0.9390243902439024,
+      &quot;passed&quot;: 154,
+      &quot;sandbox_infrastructure_ok&quot;: true,
+      &quot;timeouts&quot;: 0
+    },
+    &quot;ifeval&quot;: {
+      &quot;instruction_loose&quot;: 0.9088729016786571,
+      &quot;instruction_strict&quot;: 0.8752997601918465,
+      &quot;length_stops&quot;: 2,
+      &quot;n&quot;: 541,
+      &quot;prompt_loose&quot;: 0.866913123844732,
+      &quot;prompt_strict&quot;: 0.8243992606284658
+    },
+    &quot;logical_cases&quot;: 8620,
+    &quot;methodology&quot;: {
+      &quot;path&quot;: &quot;full-battery/METHODOLOGY.md&quot;,
+      &quot;sha256&quot;: &quot;221f3e3ee32eb1def5ed84eba0825e4ef8e4204d12fe28fb4320e08885354f53&quot;
+    },
+    &quot;official_bfcl_v4_multi_turn_base&quot;: {
+      &quot;accuracy&quot;: 0.685,
+      &quot;correct&quot;: 137,
+      &quot;n&quot;: 200
+    },
+    &quot;quality_concurrency&quot;: 2,
+    &quot;report&quot;: {
+      &quot;path&quot;: &quot;full-battery/REPORT.md&quot;,
+      &quot;sha256&quot;: &quot;caa91cf6e27a7b490b43d815a2e0c367e3021a98cf3ff0b9cadd8101970b1f57&quot;
+    },
+    &quot;scorecard&quot;: {
+      &quot;path&quot;: &quot;full-battery/scorecard.json&quot;,
+      &quot;sha256&quot;: &quot;b94700b90ad2d941be62d5792cdca888c934d350347ca1f03b540cc1248f69eb&quot;
+    },
+    &quot;status&quot;: &quot;PASS&quot;,
+    &quot;suite&quot;: &quot;r0b0bench-core-v1-rc2&quot;
   },
   &quot;native_gate&quot;: {
     &quot;emulation_markers&quot;: 0,

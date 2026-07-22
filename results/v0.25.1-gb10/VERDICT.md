@@ -12,6 +12,17 @@ Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07
 - Non-root full inference: PASS as UID/GID 65532
 - Nsight native FP4 gate: PASS
 
+## Full 8,620-case battery
+
+- Completion: PASS — 8,620/8,620 official logical cases
+- BFCL v4 `multi_turn_base`: 137/200 (`68.50%`)
+- Generated-answer lane: 6,838/7,715 (`88.63%`)
+- IFEval prompt strict / loose: `82.44%` / `86.69%`
+- IFEval instruction strict / loose: `87.53%` / `90.89%`
+- HumanEval pass@1: 154/164 (`93.90%`), networkless non-root sandbox PASS
+- Generated empty outputs / length stops: 0 / 0
+- Public aggregate evidence: [report](full-battery/REPORT.md), [scorecard](full-battery/scorecard.json), and [methodology](full-battery/METHODOLOGY.md)
+
 ## Publication verification
 
 - Public GitHub repository and release: PASS

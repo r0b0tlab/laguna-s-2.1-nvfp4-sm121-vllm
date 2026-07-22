@@ -293,6 +293,58 @@
       15
     ]
   },
+  "full_battery": {
+    "completion_contract": "every logical case has a persisted scoreable verdict; no opaque composite score",
+    "diagnostics": {
+      "calibration_semantic_disagreements": 6,
+      "generated_empty_outputs": 0,
+      "generated_extraction_failures": 11,
+      "generated_length_stops": 0
+    },
+    "excluded_calibration_cases": 210,
+    "final_validation_sha256": "879319536b3cf1d39d455a47eb0907098555f3974362263445b970d89e27c1bf",
+    "generated_answer": {
+      "accuracy": 0.8863253402462735,
+      "correct": 6838,
+      "n": 7715
+    },
+    "humaneval": {
+      "n": 164,
+      "pass_at_1": 0.9390243902439024,
+      "passed": 154,
+      "sandbox_infrastructure_ok": true,
+      "timeouts": 0
+    },
+    "ifeval": {
+      "instruction_loose": 0.9088729016786571,
+      "instruction_strict": 0.8752997601918465,
+      "length_stops": 2,
+      "n": 541,
+      "prompt_loose": 0.866913123844732,
+      "prompt_strict": 0.8243992606284658
+    },
+    "logical_cases": 8620,
+    "methodology": {
+      "path": "full-battery/METHODOLOGY.md",
+      "sha256": "221f3e3ee32eb1def5ed84eba0825e4ef8e4204d12fe28fb4320e08885354f53"
+    },
+    "official_bfcl_v4_multi_turn_base": {
+      "accuracy": 0.685,
+      "correct": 137,
+      "n": 200
+    },
+    "quality_concurrency": 2,
+    "report": {
+      "path": "full-battery/REPORT.md",
+      "sha256": "caa91cf6e27a7b490b43d815a2e0c367e3021a98cf3ff0b9cadd8101970b1f57"
+    },
+    "scorecard": {
+      "path": "full-battery/scorecard.json",
+      "sha256": "b94700b90ad2d941be62d5792cdca888c934d350347ca1f03b540cc1248f69eb"
+    },
+    "status": "PASS",
+    "suite": "r0b0bench-core-v1-rc2"
+  },
   "native_gate": {
     "emulation_markers": 0,
     "fallback_markers": 0,

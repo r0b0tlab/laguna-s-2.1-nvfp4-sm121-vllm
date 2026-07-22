@@ -6,7 +6,7 @@ This repository follows r0b0tlab's proven release-contract structure: immutable 
 
 ## Status
 
-Qualified production release. The checksummed [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), and [HTML report](results/v0.25.1-gb10/benchmark.html) cover native kernels, AR, DFlash, performance, power, quality, 262K context, non-root execution, and publication gates.
+Qualified production release. The checksummed [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), [HTML report](results/v0.25.1-gb10/benchmark.html), and [full 8,620-case scorecard](results/v0.25.1-gb10/full-battery/REPORT.md) cover native kernels, AR, DFlash, performance, power, quality, 262K context, non-root execution, and publication gates.
 
 ## Exact model contract
 
@@ -71,6 +71,20 @@ docker run --rm --gpus all --ipc=host --network host \
 ```
 
 Matched K={3,5,7,11,15} qualification selected K=7 for the production profile. DFlash requests must expose positive drafted/accepted counter deltas.
+
+## Full 8,620-case benchmark battery
+
+The production image completed every logical case in `r0b0bench-core-v1-rc2` with 210 calibration cases excluded from official totals. Scores are reported by pillar rather than collapsed into an opaque composite.
+
+| Pillar | Result |
+|---|---:|
+| BFCL v4 `multi_turn_base` | 137/200 (68.50%) |
+| Generated-answer quality | 6,838/7,715 (88.63%) |
+| IFEval prompt strict / loose | 82.44% / 86.69% |
+| IFEval instruction strict / loose | 87.53% / 90.89% |
+| HumanEval pass@1 | 154/164 (93.90%) |
+
+See the [human-readable scorecard](results/v0.25.1-gb10/full-battery/REPORT.md), [machine-readable scorecard](results/v0.25.1-gb10/full-battery/scorecard.json), and [full methodology](results/v0.25.1-gb10/full-battery/METHODOLOGY.md). The generated-answer scorecard includes GSM8K, ARC-Challenge, PIQA, WinoGrande XL, TruthfulQA MC1, and eight MMLU subjects.
 
 ## Safety boundaries
 
