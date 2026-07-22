@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "profile": "production-fp8-ar-candidate",
+  "profile": "production-fp8-dflash-k7",
   "vllm_version": "0.25.1",
   "vllm_package_version": "0.25.1",
   "vllm_tag": "v0.25.1",
@@ -33,12 +33,17 @@
   "gpu_memory_utilization": 0.85,
   "reasoning_parser": "poolside_v1",
   "tool_call_parser": "poolside_v1",
-  "default_speculative_config": null,
+  "default_speculative_config": {
+    "method": "dflash",
+    "model": "poolside/Laguna-S-2.1-DFlash-NVFP4",
+    "revision": "723794750422b3efbf3a7b3af76dffb4ba035943",
+    "num_speculative_tokens": 7
+  },
   "sampling": {
     "temperature": 0.7,
     "top_p": 0.95,
     "checkpoint_top_k": 20,
     "min_p": null
   },
-  "release_kind": "candidate: newest stable vLLM source build plus Poolside-validated FlashInfer native SM121 stack"
+  "release_kind": "production: stable vLLM, native FlashInfer SM121 NVFP4, FP8 KV, and qualified DFlash K=7"
 }

@@ -62,14 +62,14 @@ The default remains AR until the DFlash depth sweep is complete.
 
 ```bash
 docker run --rm --gpus all --ipc=host --network host \
-  -e DFLASH_TOKENS=15 \
+  -e DFLASH_TOKENS=7 \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/Laguna-S-2.1-DFlash-NVFP4:/models/Laguna-S-2.1-DFlash-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
   laguna-s21-sm121-vllm:v0.25.1-candidate
 ```
 
-K is not a release claim until matched K={3,5,7,11,15} evidence selects it. DFlash requests must expose positive drafted/accepted counter deltas.
+Matched K={3,5,7,11,15} qualification selected K=7 for the production profile. DFlash requests must expose positive drafted/accepted counter deltas.
 
 ## Safety boundaries
 

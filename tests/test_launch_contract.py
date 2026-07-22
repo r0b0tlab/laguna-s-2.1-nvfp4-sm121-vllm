@@ -78,7 +78,7 @@ class LaunchContractTests(unittest.TestCase):
             'MAX_MODEL_LEN="${MAX_MODEL_LEN:-262144}"',
             'MAX_NUM_SEQS="${MAX_NUM_SEQS:-32}"',
             'GPU_MEMORY_UTILIZATION="${GPU_MEMORY_UTILIZATION:-0.85}"',
-            'DFLASH_TOKENS="${DFLASH_TOKENS:-0}"',
+            'DFLASH_TOKENS="${DFLASH_TOKENS:-7}"',
             'DRAFT_MODEL_REVISION="${DRAFT_MODEL_REVISION:-723794750422b3efbf3a7b3af76dffb4ba035943}"',
             "--reasoning-parser poolside_v1",
             "--tool-call-parser poolside_v1",
@@ -90,7 +90,7 @@ class LaunchContractTests(unittest.TestCase):
         self.assertIn("--override-generation-config", text)
         self.assertIn('"top_k":20', text)
 
-    def test_recipe_is_exact_candidate_contract(self) -> None:
+    def test_recipe_is_exact_production_contract(self) -> None:
         text = RECIPE.read_text()
         self.assertIn("model: poolside/Laguna-S-2.1-NVFP4", text)
         self.assertIn("model_revision: 216d1f13878dd4e715bc7412848d0f330e95bba6", text)
@@ -99,7 +99,10 @@ class LaunchContractTests(unittest.TestCase):
         self.assertIn("max_model_len: 262144", text)
         self.assertIn("--reasoning-parser poolside_v1", text)
         self.assertIn("--tool-call-parser poolside_v1", text)
-        self.assertNotIn("--speculative-config", text)
+        self.assertIn("--speculative-config", text)
+        self.assertIn('"method":"dflash"', text)
+        self.assertIn('"num_speculative_tokens":7', text)
+        self.assertIn('"revision":"{draft_revision}"', text)
 
 
 if __name__ == "__main__":
