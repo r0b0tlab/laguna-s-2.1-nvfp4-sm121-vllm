@@ -65,7 +65,7 @@ def main() -> int:
         "cuda-tile": manifest.get("cuda_tile"),
         "nccl4py": manifest.get("nccl4py"),
     }
-    add("profile", manifest.get("profile") in {"production-fp8-ar-candidate", "production-fp8-dflash"}, manifest.get("profile"))
+    add("profile", manifest.get("profile") in {"production-fp8-ar-candidate", "production-fp8-dflash", "production-fp8-dflash-k7"}, manifest.get("profile"))
     add("target_model", manifest.get("model_id") == "poolside/Laguna-S-2.1-NVFP4", manifest.get("model_id"))
     add("target_revision", manifest.get("model_revision") == "216d1f13878dd4e715bc7412848d0f330e95bba6", manifest.get("model_revision"))
     add("draft_model", manifest.get("draft_model_id") == "poolside/Laguna-S-2.1-DFlash-NVFP4", manifest.get("draft_model_id"))
