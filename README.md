@@ -53,7 +53,7 @@ The durable build writes its log, return code, image inspection, and PASS/FAIL s
 docker run --rm --gpus all --ipc=host --network host \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
-  laguna-s21-sm121-vllm:v0.25.1-candidate
+  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
 ```
 
 The default remains AR until the DFlash depth sweep is complete.
@@ -66,7 +66,7 @@ docker run --rm --gpus all --ipc=host --network host \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/Laguna-S-2.1-DFlash-NVFP4:/models/Laguna-S-2.1-DFlash-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
-  laguna-s21-sm121-vllm:v0.25.1-candidate
+  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
 ```
 
 Matched K={3,5,7,11,15} qualification selected K=7 for the production profile. DFlash requests must expose positive drafted/accepted counter deltas.
@@ -119,3 +119,9 @@ Detailed references:
 ## License and credit
 
 Repository code is MIT licensed. vLLM and FlashInfer are Apache-2.0 projects. Model use is governed by Poolside's OpenMDW-1.1 model license and acceptable-use terms. This repository redistributes no model weights.
+
+## Qualified release
+
+Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3`
+
+The release pins target `216d1f13878dd4e715bc7412848d0f330e95bba6`, draft `723794750422b3efbf3a7b3af76dffb4ba035943`, and vLLM commit `752a3a504485790a2e8491cacbb35c137339ad34`. See [VERDICT](results/v0.25.1-gb10/VERDICT.md), [machine-readable results](results/v0.25.1-gb10/summary.json), and the [HTML report](results/v0.25.1-gb10/benchmark.html).

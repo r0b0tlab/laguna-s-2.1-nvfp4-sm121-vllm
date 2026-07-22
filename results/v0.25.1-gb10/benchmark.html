@@ -1,0 +1,511 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Laguna S 2.1 NVFP4 — GB10 report</title><style>body{font:16px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#16202a}h1,h2{line-height:1.2}.ok{color:#086b36;font-weight:700}table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{border:1px solid #ccd5df;padding:.45rem;text-align:right}th:first-child,td:first-child{text-align:left}pre{background:#f5f7fa;padding:1rem;overflow:auto}code{font-family:ui-monospace,monospace}</style></head><body><h1>Laguna S 2.1 NVFP4 on NVIDIA GB10</h1><p class='ok'>Release status: PASS</p><p>Exact target <code>poolside/Laguna-S-2.1-NVFP4@216d1f13878dd4e715bc7412848d0f330e95bba6</code>. Production profile uses FP8 KV and DFlash K=7.</p><h2>Performance</h2><table><thead><tr><th>Concurrency</th><th>Output tok/s</th><th>Prompt tok/s</th><th>TTFT p50 s</th><th>ITL p50 s</th><th>Power W</th><th>Accepted length</th></tr></thead><tbody><tr><td>1</td><td>44.2299623670345</td><td>57.29790579365834</td><td>0.2783456409815699</td><td>0.10210584208834916</td><td>39.83</td><td>0.8181818181818182</td></tr><tr><td>2</td><td>71.21673871290474</td><td>97.8157616056764</td><td>0.44091332546668127</td><td>0.11172925605205819</td><td>41.644999999999996</td><td>0.8313253012048193</td></tr><tr><td>4</td><td>112.23438659008112</td><td>154.15325387071383</td><td>0.5252784804906696</td><td>0.13985798449721187</td><td>42.394999999999996</td><td>0.8313253012048193</td></tr><tr><td>8</td><td>197.4266724942283</td><td>282.20450334935254</td><td>0.5656565094832331</td><td>0.15541542193386704</td><td>45.364999999999995</td><td>0.8318042813455657</td></tr><tr><td>16</td><td>350.5399510556582</td><td>492.5923503278279</td><td>0.6115527244983241</td><td>0.17360518395435065</td><td>46.739999999999995</td><td>0.8228043143297381</td></tr><tr><td>32</td><td>605.4183674753336</td><td>857.3626570458141</td><td>0.7271910520503297</td><td>0.1965829050168395</td><td>50.6125</td><td>0.8290796597061099</td></tr></tbody></table><h2>Release identity</h2><pre>{
+  &quot;cuda&quot;: &quot;13.0&quot;,
+  &quot;draft_model_id&quot;: &quot;poolside/Laguna-S-2.1-DFlash-NVFP4&quot;,
+  &quot;draft_model_revision&quot;: &quot;723794750422b3efbf3a7b3af76dffb4ba035943&quot;,
+  &quot;flashinfer&quot;: &quot;0.6.15.dev20260712&quot;,
+  &quot;ghcr_digest&quot;: &quot;sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3&quot;,
+  &quot;ghcr_image&quot;: &quot;ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121&quot;,
+  &quot;immutable_image&quot;: &quot;ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3&quot;,
+  &quot;local_image_id&quot;: &quot;sha256:cc152674d09efa20f0e082c967c23958b7d0db9b1b7a5abf274da9a22fd9b080&quot;,
+  &quot;model_id&quot;: &quot;poolside/Laguna-S-2.1-NVFP4&quot;,
+  &quot;model_revision&quot;: &quot;216d1f13878dd4e715bc7412848d0f330e95bba6&quot;,
+  &quot;source_commit&quot;: &quot;cb72da35b65bf01fff32b050344c7f6a05c4f890&quot;,
+  &quot;torch&quot;: &quot;2.11.0+cu130&quot;,
+  &quot;vllm&quot;: &quot;0.25.1&quot;,
+  &quot;vllm_commit&quot;: &quot;752a3a504485790a2e8491cacbb35c137339ad34&quot;
+}</pre><h2>Machine-readable evidence</h2><pre>{
+  &quot;canaries&quot;: {
+    &quot;context_262k&quot;: true,
+    &quot;long_generation&quot;: true,
+    &quot;models&quot;: true,
+    &quot;multi_tool&quot;: true,
+    &quot;nonroot_full_inference&quot;: true,
+    &quot;preserved_reasoning&quot;: true,
+    &quot;reasoning&quot;: true,
+    &quot;semantic&quot;: true,
+    &quot;tool_call&quot;: true
+  },
+  &quot;context&quot;: {
+    &quot;rows&quot;: [
+      {
+        &quot;calibrated_prompt_tokens&quot;: 65272,
+        &quot;elapsed_seconds&quot;: 25.01671155996155,
+        &quot;filler_repeats&quot;: 5014,
+        &quot;needle&quot;: &quot;LAGUNA-65536-05-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.05,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 65272,
+        &quot;response&quot;: &quot;LAGUNA-65536-05-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 65536
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 65272,
+        &quot;elapsed_seconds&quot;: 23.455960990977474,
+        &quot;filler_repeats&quot;: 5014,
+        &quot;needle&quot;: &quot;LAGUNA-65536-50-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.5,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 65272,
+        &quot;response&quot;: &quot;LAGUNA-65536-50-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 65536
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 65272,
+        &quot;elapsed_seconds&quot;: 14.732864549965598,
+        &quot;filler_repeats&quot;: 5014,
+        &quot;needle&quot;: &quot;LAGUNA-65536-95-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.95,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 65272,
+        &quot;response&quot;: &quot;LAGUNA-65536-95-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 65536
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 130806,
+        &quot;elapsed_seconds&quot;: 60.26758693601005,
+        &quot;filler_repeats&quot;: 10055,
+        &quot;needle&quot;: &quot;LAGUNA-131072-05-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.05,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 130806,
+        &quot;response&quot;: &quot;LAGUNA-131072-05-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 131072
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 130806,
+        &quot;elapsed_seconds&quot;: 40.91276454401668,
+        &quot;filler_repeats&quot;: 10055,
+        &quot;needle&quot;: &quot;LAGUNA-131072-50-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.5,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 130806,
+        &quot;response&quot;: &quot;LAGUNA-131072-50-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 131072
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 130806,
+        &quot;elapsed_seconds&quot;: 39.485147165949456,
+        &quot;filler_repeats&quot;: 10055,
+        &quot;needle&quot;: &quot;LAGUNA-131072-95-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.95,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 130806,
+        &quot;response&quot;: &quot;LAGUNA-131072-95-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 131072
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 261885,
+        &quot;elapsed_seconds&quot;: 182.26990870502777,
+        &quot;filler_repeats&quot;: 20138,
+        &quot;needle&quot;: &quot;LAGUNA-262144-05-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.05,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 261885,
+        &quot;response&quot;: &quot;LAGUNA-262144-05-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 262144
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 261885,
+        &quot;elapsed_seconds&quot;: 179.13991105009336,
+        &quot;filler_repeats&quot;: 20138,
+        &quot;needle&quot;: &quot;LAGUNA-262144-50-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.5,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 261885,
+        &quot;response&quot;: &quot;LAGUNA-262144-50-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 262144
+      },
+      {
+        &quot;calibrated_prompt_tokens&quot;: 261885,
+        &quot;elapsed_seconds&quot;: 122.6827328390209,
+        &quot;filler_repeats&quot;: 20138,
+        &quot;needle&quot;: &quot;LAGUNA-262144-95-R0B0TLAB&quot;,
+        &quot;needle_position&quot;: 0.95,
+        &quot;ok&quot;: true,
+        &quot;reported_prompt_tokens&quot;: 261885,
+        &quot;response&quot;: &quot;LAGUNA-262144-95-R0B0TLAB&quot;,
+        &quot;target_tokens&quot;: 262144
+      }
+    ],
+    &quot;status&quot;: &quot;PASS&quot;
+  },
+  &quot;dflash_depth_sweep&quot;: {
+    &quot;profiles&quot;: [
+      {
+        &quot;k&quot;: 3,
+        &quot;rows&quot;: [
+          {
+            &quot;accepted&quot;: 28.0,
+            &quot;accepted_length&quot;: 0.717948717948718,
+            &quot;concurrency&quot;: 1,
+            &quot;drafted&quot;: 30.0,
+            &quot;itl_p50_seconds&quot;: 0.08203313598642126,
+            &quot;output_tokens_per_second&quot;: 36.006304857424674,
+            &quot;ttft_p50_seconds&quot;: 0.2620661479886621
+          },
+          {
+            &quot;accepted&quot;: 449.0,
+            &quot;accepted_length&quot;: 0.7082018927444795,
+            &quot;concurrency&quot;: 16,
+            &quot;drafted&quot;: 507.0,
+            &quot;itl_p50_seconds&quot;: 0.12754582101479173,
+            &quot;output_tokens_per_second&quot;: 327.10886306530824,
+            &quot;ttft_p50_seconds&quot;: 0.5664757115300745
+          },
+          {
+            &quot;accepted&quot;: 950.0,
+            &quot;accepted_length&quot;: 0.7116104868913857,
+            &quot;concurrency&quot;: 32,
+            &quot;drafted&quot;: 1059.0,
+            &quot;itl_p50_seconds&quot;: 0.1509836504701525,
+            &quot;output_tokens_per_second&quot;: 337.08063654785224,
+            &quot;ttft_p50_seconds&quot;: 0.6446560025215149
+          }
+        ],
+        &quot;status&quot;: &quot;PASS&quot;
+      },
+      {
+        &quot;k&quot;: 5,
+        &quot;rows&quot;: [
+          {
+            &quot;accepted&quot;: 31.0,
+            &quot;accepted_length&quot;: 0.7948717948717948,
+            &quot;concurrency&quot;: 1,
+            &quot;drafted&quot;: 35.0,
+            &quot;itl_p50_seconds&quot;: 0.1027507740072906,
+            &quot;output_tokens_per_second&quot;: 38.96730358852851,
+            &quot;ttft_p50_seconds&quot;: 0.28284461807925254
+          },
+          {
+            &quot;accepted&quot;: 511.0,
+            &quot;accepted_length&quot;: 0.7873651771956857,
+            &quot;concurrency&quot;: 16,
+            &quot;drafted&quot;: 610.0,
+            &quot;itl_p50_seconds&quot;: 0.154540078015998,
+            &quot;output_tokens_per_second&quot;: 352.1429330568053,
+            &quot;ttft_p50_seconds&quot;: 0.5972289874916896
+          },
+          {
+            &quot;accepted&quot;: 1017.0,
+            &quot;accepted_length&quot;: 0.7865429234338747,
+            &quot;concurrency&quot;: 32,
+            &quot;drafted&quot;: 1220.0,
+            &quot;itl_p50_seconds&quot;: 0.21136198396561667,
+            &quot;output_tokens_per_second&quot;: 533.3138805168879,
+            &quot;ttft_p50_seconds&quot;: 0.7217372740269639
+          }
+        ],
+        &quot;status&quot;: &quot;PASS&quot;
+      },
+      {
+        &quot;k&quot;: 7,
+        &quot;rows&quot;: [
+          {
+            &quot;accepted&quot;: 36.0,
+            &quot;accepted_length&quot;: 0.8181818181818182,
+            &quot;concurrency&quot;: 1,
+            &quot;drafted&quot;: 49.0,
+            &quot;itl_p50_seconds&quot;: 0.10228591808117926,
+            &quot;output_tokens_per_second&quot;: 44.09321190153859,
+            &quot;ttft_p50_seconds&quot;: 0.28291088494006544
+          },
+          {
+            &quot;accepted&quot;: 532.0,
+            &quot;accepted_length&quot;: 0.8325508607198748,
+            &quot;concurrency&quot;: 16,
+            &quot;drafted&quot;: 637.0,
+            &quot;itl_p50_seconds&quot;: 0.17500613094307482,
+            &quot;output_tokens_per_second&quot;: 357.5610432954564,
+            &quot;ttft_p50_seconds&quot;: 0.6159434290020727
+          },
+          {
+            &quot;accepted&quot;: 1064.0,
+            &quot;accepted_length&quot;: 0.8260869565217391,
+            &quot;concurrency&quot;: 32,
+            &quot;drafted&quot;: 1344.0,
+            &quot;itl_p50_seconds&quot;: 0.1963788329740055,
+            &quot;output_tokens_per_second&quot;: 605.751728249599,
+            &quot;ttft_p50_seconds&quot;: 0.7300904440344311
+          }
+        ],
+        &quot;status&quot;: &quot;PASS&quot;
+      },
+      {
+        &quot;k&quot;: 11,
+        &quot;rows&quot;: [
+          {
+            &quot;accepted&quot;: 33.0,
+            &quot;accepted_length&quot;: 0.8461538461538461,
+            &quot;concurrency&quot;: 1,
+            &quot;drafted&quot;: 55.0,
+            &quot;itl_p50_seconds&quot;: 0.12176316394470632,
+            &quot;output_tokens_per_second&quot;: 42.428188648155675,
+            &quot;ttft_p50_seconds&quot;: 0.3027359429979697
+          },
+          {
+            &quot;accepted&quot;: 567.0,
+            &quot;accepted_length&quot;: 0.8603945371775418,
+            &quot;concurrency&quot;: 16,
+            &quot;drafted&quot;: 836.0,
+            &quot;itl_p50_seconds&quot;: 0.21551445696968585,
+            &quot;output_tokens_per_second&quot;: 226.60591226371946,
+            &quot;ttft_p50_seconds&quot;: 0.989340808999259
+          },
+          {
+            &quot;accepted&quot;: 1111.0,
+            &quot;accepted_length&quot;: 0.8592420726991493,
+            &quot;concurrency&quot;: 32,
+            &quot;drafted&quot;: 1650.0,
+            &quot;itl_p50_seconds&quot;: 0.25217672751750797,
+            &quot;output_tokens_per_second&quot;: 580.3636381307402,
+            &quot;ttft_p50_seconds&quot;: 0.7949453740147874
+          }
+        ],
+        &quot;status&quot;: &quot;PASS&quot;
+      },
+      {
+        &quot;k&quot;: 15,
+        &quot;rows&quot;: [
+          {
+            &quot;accepted&quot;: 38.0,
+            &quot;accepted_length&quot;: 0.8636363636363636,
+            &quot;concurrency&quot;: 1,
+            &quot;drafted&quot;: 75.0,
+            &quot;itl_p50_seconds&quot;: 0.12708026997279376,
+            &quot;output_tokens_per_second&quot;: 46.842261035467686,
+            &quot;ttft_p50_seconds&quot;: 0.30541276396252215
+          },
+          {
+            &quot;accepted&quot;: 560.0,
+            &quot;accepted_length&quot;: 0.8628659476117103,
+            &quot;concurrency&quot;: 16,
+            &quot;drafted&quot;: 1095.0,
+            &quot;itl_p50_seconds&quot;: 0.23848521400941536,
+            &quot;output_tokens_per_second&quot;: 321.65815852438675,
+            &quot;ttft_p50_seconds&quot;: 0.870828173472546
+          },
+          {
+            &quot;accepted&quot;: 1096.0,
+            &quot;accepted_length&quot;: 0.8575899843505478,
+            &quot;concurrency&quot;: 32,
+            &quot;drafted&quot;: 2250.0,
+            &quot;itl_p50_seconds&quot;: 0.2923353344667703,
+            &quot;output_tokens_per_second&quot;: 564.7824032666969,
+            &quot;ttft_p50_seconds&quot;: 0.820383127022069
+          }
+        ],
+        &quot;status&quot;: &quot;PASS&quot;
+      }
+    ],
+    &quot;selected_k&quot;: 7,
+    &quot;selection_note&quot;: &quot;K=7 provided the strongest balanced single-request and high-concurrency throughput among all matched correct profiles.&quot;,
+    &quot;selection_rule_pass&quot;: true,
+    &quot;tested_k&quot;: [
+      3,
+      5,
+      7,
+      11,
+      15
+    ]
+  },
+  &quot;native_gate&quot;: {
+    &quot;emulation_markers&quot;: 0,
+    &quot;fallback_markers&quot;: 0,
+    &quot;flashinfer_attention&quot;: true,
+    &quot;flashinfer_cutlass_nvfp4&quot;: true,
+    &quot;marlin_markers&quot;: 0,
+    &quot;nsight_kernel_count&quot;: 22,
+    &quot;nsight_kernel_table&quot;: true,
+    &quot;nsight_native_kernel_count&quot;: 3,
+    &quot;runtime_audit&quot;: &quot;PASS&quot;
+  },
+  &quot;notes&quot;: [
+    &quot;The checkpoint emits upstream Transformers tokenizer-regex and reasoning-token auto-initialization warnings; the exact pinned checkpoint nevertheless passed all API/tool/reasoning canaries, 1,319-sample GSM8K, and calibrated 262K retrieval.&quot;,
+    &quot;A 16,384 max batched-token candidate was rejected because it left no KV-cache blocks; the qualified production value remains 8,192.&quot;
+  ],
+  &quot;performance&quot;: {
+    &quot;ar_baseline_rows&quot;: [
+      {
+        &quot;concurrency&quot;: 1,
+        &quot;output_tokens_per_second&quot;: 17.780292687054107
+      },
+      {
+        &quot;concurrency&quot;: 2,
+        &quot;output_tokens_per_second&quot;: 29.636985019240782
+      },
+      {
+        &quot;concurrency&quot;: 4,
+        &quot;output_tokens_per_second&quot;: 57.12613647034592
+      },
+      {
+        &quot;concurrency&quot;: 8,
+        &quot;output_tokens_per_second&quot;: 108.93023172979305
+      },
+      {
+        &quot;concurrency&quot;: 16,
+        &quot;output_tokens_per_second&quot;: 184.68772014243442
+      },
+      {
+        &quot;concurrency&quot;: 32,
+        &quot;output_tokens_per_second&quot;: 300.2984872163732
+      }
+    ],
+    &quot;errors&quot;: [],
+    &quot;rows&quot;: [
+      {
+        &quot;concurrency&quot;: 1,
+        &quot;dflash_accepted&quot;: 36.0,
+        &quot;dflash_accepted_length&quot;: 0.8181818181818182,
+        &quot;dflash_drafted&quot;: 49.0,
+        &quot;itl_p50_seconds&quot;: 0.10210584208834916,
+        &quot;itl_p90_seconds&quot;: 0.10362649718299508,
+        &quot;itl_p99_seconds&quot;: 0.1036320095625706,
+        &quot;output_tokens_per_second&quot;: 44.2299623670345,
+        &quot;power_mean_watts&quot;: 39.83,
+        &quot;prompt_tokens_per_second&quot;: 57.29790579365834,
+        &quot;requests_ok&quot;: 1,
+        &quot;requests_total&quot;: 1,
+        &quot;ttft_p50_seconds&quot;: 0.2783456409815699,
+        &quot;ttft_p90_seconds&quot;: 0.2783456409815699,
+        &quot;ttft_p99_seconds&quot;: 0.2783456409815699
+      },
+      {
+        &quot;concurrency&quot;: 2,
+        &quot;dflash_accepted&quot;: 69.0,
+        &quot;dflash_accepted_length&quot;: 0.8313253012048193,
+        &quot;dflash_drafted&quot;: 84.0,
+        &quot;itl_p50_seconds&quot;: 0.11172925605205819,
+        &quot;itl_p90_seconds&quot;: 0.12023443758953363,
+        &quot;itl_p99_seconds&quot;: 0.12114412265596912,
+        &quot;output_tokens_per_second&quot;: 71.21673871290474,
+        &quot;power_mean_watts&quot;: 41.644999999999996,
+        &quot;prompt_tokens_per_second&quot;: 97.8157616056764,
+        &quot;requests_ok&quot;: 2,
+        &quot;requests_total&quot;: 2,
+        &quot;ttft_p50_seconds&quot;: 0.44091332546668127,
+        &quot;ttft_p90_seconds&quot;: 0.4866690306575038,
+        &quot;ttft_p99_seconds&quot;: 0.4969640643254388
+      },
+      {
+        &quot;concurrency&quot;: 4,
+        &quot;dflash_accepted&quot;: 138.0,
+        &quot;dflash_accepted_length&quot;: 0.8313253012048193,
+        &quot;dflash_drafted&quot;: 168.0,
+        &quot;itl_p50_seconds&quot;: 0.13985798449721187,
+        &quot;itl_p90_seconds&quot;: 0.16656021823873743,
+        &quot;itl_p99_seconds&quot;: 0.1669693804520648,
+        &quot;output_tokens_per_second&quot;: 112.23438659008112,
+        &quot;power_mean_watts&quot;: 42.394999999999996,
+        &quot;prompt_tokens_per_second&quot;: 154.15325387071383,
+        &quot;requests_ok&quot;: 4,
+        &quot;requests_total&quot;: 4,
+        &quot;ttft_p50_seconds&quot;: 0.5252784804906696,
+        &quot;ttft_p90_seconds&quot;: 0.5263610654161311,
+        &quot;ttft_p99_seconds&quot;: 0.5266323087585625
+      },
+      {
+        &quot;concurrency&quot;: 8,
+        &quot;dflash_accepted&quot;: 272.0,
+        &quot;dflash_accepted_length&quot;: 0.8318042813455657,
+        &quot;dflash_drafted&quot;: 329.0,
+        &quot;itl_p50_seconds&quot;: 0.15541542193386704,
+        &quot;itl_p90_seconds&quot;: 0.17468149703927338,
+        &quot;itl_p99_seconds&quot;: 0.17593011003918946,
+        &quot;output_tokens_per_second&quot;: 197.4266724942283,
+        &quot;power_mean_watts&quot;: 45.364999999999995,
+        &quot;prompt_tokens_per_second&quot;: 282.20450334935254,
+        &quot;requests_ok&quot;: 8,
+        &quot;requests_total&quot;: 8,
+        &quot;ttft_p50_seconds&quot;: 0.5656565094832331,
+        &quot;ttft_p90_seconds&quot;: 0.5676806480856612,
+        &quot;ttft_p99_seconds&quot;: 0.5682528878236189
+      },
+      {
+        &quot;concurrency&quot;: 16,
+        &quot;dflash_accepted&quot;: 534.0,
+        &quot;dflash_accepted_length&quot;: 0.8228043143297381,
+        &quot;dflash_drafted&quot;: 693.0,
+        &quot;itl_p50_seconds&quot;: 0.17360518395435065,
+        &quot;itl_p90_seconds&quot;: 0.19203759280499072,
+        &quot;itl_p99_seconds&quot;: 0.1938708665082231,
+        &quot;output_tokens_per_second&quot;: 350.5399510556582,
+        &quot;power_mean_watts&quot;: 46.739999999999995,
+        &quot;prompt_tokens_per_second&quot;: 492.5923503278279,
+        &quot;requests_ok&quot;: 16,
+        &quot;requests_total&quot;: 16,
+        &quot;ttft_p50_seconds&quot;: 0.6115527244983241,
+        &quot;ttft_p90_seconds&quot;: 0.6169884689734317,
+        &quot;ttft_p99_seconds&quot;: 0.6174723863310646
+      },
+      {
+        &quot;concurrency&quot;: 32,
+        &quot;dflash_accepted&quot;: 1072.0,
+        &quot;dflash_accepted_length&quot;: 0.8290796597061099,
+        &quot;dflash_drafted&quot;: 1330.0,
+        &quot;itl_p50_seconds&quot;: 0.1965829050168395,
+        &quot;itl_p90_seconds&quot;: 0.2261063211481087,
+        &quot;itl_p99_seconds&quot;: 0.23059216756839304,
+        &quot;output_tokens_per_second&quot;: 605.4183674753336,
+        &quot;power_mean_watts&quot;: 50.6125,
+        &quot;prompt_tokens_per_second&quot;: 857.3626570458141,
+        &quot;requests_ok&quot;: 32,
+        &quot;requests_total&quot;: 32,
+        &quot;ttft_p50_seconds&quot;: 0.7271910520503297,
+        &quot;ttft_p90_seconds&quot;: 0.7388710449682548,
+        &quot;ttft_p99_seconds&quot;: 0.7404185850103385
+      }
+    ]
+  },
+  &quot;privacy&quot;: {
+    &quot;credential_scan&quot;: &quot;PASS&quot;,
+    &quot;raw_prompts_published&quot;: false,
+    &quot;raw_server_logs_published&quot;: false
+  },
+  &quot;profile&quot;: {
+    &quot;configured_context_tokens&quot;: 262144,
+    &quot;gpu_memory_utilization&quot;: 0.85,
+    &quot;kv_cache_dtype&quot;: &quot;fp8&quot;,
+    &quot;max_num_batched_tokens&quot;: 8192,
+    &quot;max_num_seqs&quot;: 32,
+    &quot;name&quot;: &quot;production-fp8-dflash-k7&quot;,
+    &quot;runs_as_user&quot;: &quot;65532:65532&quot;,
+    &quot;speculation&quot;: {
+      &quot;method&quot;: &quot;dflash&quot;,
+      &quot;num_speculative_tokens&quot;: 7
+    }
+  },
+  &quot;quality&quot;: {
+    &quot;correct&quot;: 1250,
+    &quot;dataset&quot;: &quot;openai/gsm8k&quot;,
+    &quot;dataset_parquet_sha256&quot;: &quot;ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59&quot;,
+    &quot;dataset_revision&quot;: &quot;740312add88f781978c0658806c59bc2815b9866&quot;,
+    &quot;enable_thinking&quot;: false,
+    &quot;endpoint&quot;: &quot;chat-completions&quot;,
+    &quot;flexible_extract_exact_match&quot;: 0.9476876421531463,
+    &quot;num_fewshot&quot;: 0,
+    &quot;request_errors&quot;: 0,
+    &quot;sample_count&quot;: 1319,
+    &quot;samples_sha256&quot;: &quot;20abbf5537f7b15648ba9df1ff3f633dbc6cb2df8fb9622f7c784a31aa50cf82&quot;,
+    &quot;schema_version&quot;: 1,
+    &quot;status&quot;: &quot;PASS&quot;,
+    &quot;task&quot;: &quot;gsm8k&quot;
+  },
+  &quot;release&quot;: {
+    &quot;cuda&quot;: &quot;13.0&quot;,
+    &quot;draft_model_id&quot;: &quot;poolside/Laguna-S-2.1-DFlash-NVFP4&quot;,
+    &quot;draft_model_revision&quot;: &quot;723794750422b3efbf3a7b3af76dffb4ba035943&quot;,
+    &quot;flashinfer&quot;: &quot;0.6.15.dev20260712&quot;,
+    &quot;ghcr_digest&quot;: &quot;sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3&quot;,
+    &quot;ghcr_image&quot;: &quot;ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121&quot;,
+    &quot;immutable_image&quot;: &quot;ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3&quot;,
+    &quot;local_image_id&quot;: &quot;sha256:cc152674d09efa20f0e082c967c23958b7d0db9b1b7a5abf274da9a22fd9b080&quot;,
+    &quot;model_id&quot;: &quot;poolside/Laguna-S-2.1-NVFP4&quot;,
+    &quot;model_revision&quot;: &quot;216d1f13878dd4e715bc7412848d0f330e95bba6&quot;,
+    &quot;source_commit&quot;: &quot;cb72da35b65bf01fff32b050344c7f6a05c4f890&quot;,
+    &quot;torch&quot;: &quot;2.11.0+cu130&quot;,
+    &quot;vllm&quot;: &quot;0.25.1&quot;,
+    &quot;vllm_commit&quot;: &quot;752a3a504485790a2e8491cacbb35c137339ad34&quot;
+  },
+  &quot;schema_version&quot;: 1,
+  &quot;status&quot;: &quot;PASS&quot;
+}</pre></body></html>
