@@ -182,4 +182,13 @@ RUN chmod 0755 /usr/local/bin/entrypoint.sh /usr/local/bin/audit_runtime.py /usr
     && command -v vllm \
     && VLLM_VERSION="${VLLM_VERSION}" FLASHINFER_VERSION="${FLASHINFER_VERSION}" python3 -c 'import importlib.metadata as md,os; assert md.version("vllm")==os.environ["VLLM_VERSION"]; assert md.version("flashinfer-python")==os.environ["FLASHINFER_VERSION"]'
 
+RUN groupadd --gid 65532 r0b0tlab \
+    && useradd --uid 65532 --gid 65532 --home-dir /opt/r0b0tlab/runtime-user --no-create-home \
+        --shell /usr/sbin/nologin r0b0tlab \
+    && mkdir -p /opt/r0b0tlab/runtime-user/.cache/vllm \
+    && chown -R 65532:65532 /opt/r0b0tlab/runtime-user
+
+ENV HOME=/opt/r0b0tlab/runtime-user
+USER 65532:65532
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
