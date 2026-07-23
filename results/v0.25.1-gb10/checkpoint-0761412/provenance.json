@@ -1,0 +1,50 @@
+{
+  "checkpoint_inventory": {
+    "file_count": 27,
+    "shard_count": 15,
+    "total_bytes": 71938632401,
+    "weight_map_entries": 145153
+  },
+  "draft": {
+    "id": "poolside/Laguna-S-2.1-DFlash-NVFP4",
+    "k": 7,
+    "revision": "723794750422b3efbf3a7b3af76dffb4ba035943"
+  },
+  "image": {
+    "local_image_id": "sha256:958670ba742d3326375c062f55dba0b25c879a795d7c9fd82c5b87d4bca72f4b",
+    "parent_digest": "sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3",
+    "source_commit": "6befb3ec2cd39621a5f8d6e4202cd4ba4aa1543a"
+  },
+  "llama_benchy": {
+    "concurrency": 1,
+    "depths": [
+      0,
+      4096,
+      8192,
+      16384
+    ],
+    "exact_generation": true,
+    "generation_tokens": 128,
+    "latency_mode": "api",
+    "latency_ms": 3.760136663913727,
+    "prefix_cache_measurement": false,
+    "prompt_tokens": 2048,
+    "runs_per_point": 3,
+    "thinking": false,
+    "timestamp": "2026-07-23 00:07:26Z",
+    "version": "0.4.0"
+  },
+  "runtime": {
+    "compute_capability": "12.1",
+    "kv_cache": "fp8",
+    "vllm": "0.25.1"
+  },
+  "schema_version": 1,
+  "scope": "revision-scoped quick validation; not a replacement for the historical 8,620-case battery",
+  "status": "PASS",
+  "target": {
+    "id": "poolside/Laguna-S-2.1-NVFP4",
+    "revision": "07614121b31898586430f189d27a25a0be310843",
+    "upstream_change": "nvfp4: spinquantless norot weights, 256K"
+  }
+}

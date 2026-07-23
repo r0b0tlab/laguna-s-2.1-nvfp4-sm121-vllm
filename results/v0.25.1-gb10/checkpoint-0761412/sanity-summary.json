@@ -1,0 +1,64 @@
+{
+  "draft": {
+    "id": "poolside/Laguna-S-2.1-DFlash-NVFP4",
+    "k": 7,
+    "revision": "723794750422b3efbf3a7b3af76dffb4ba035943"
+  },
+  "native": {
+    "dflash_k7_active": true,
+    "flashinfer_cutlass_nvfp4": true,
+    "forbidden_markers": {
+      "active_emulation": 0,
+      "active_marlin": 0,
+      "fallback": 0
+    },
+    "runtime_audit_pass": true
+  },
+  "runtime": {
+    "compute_capability": "12.1",
+    "kv_cache": "fp8",
+    "vllm": "0.25.1"
+  },
+  "schema_version": 1,
+  "smoke": {
+    "long_generation": {
+      "completion_tokens": 512,
+      "ok": true,
+      "prompt_tokens": 63
+    },
+    "math": {
+      "completion_tokens": 13,
+      "ok": true,
+      "prompt_tokens": 57
+    },
+    "multi_tool": {
+      "completion_tokens": 77,
+      "ok": true,
+      "prompt_tokens": 225
+    },
+    "preserved_reasoning": {
+      "completion_tokens": 3,
+      "ok": true,
+      "prompt_tokens": 73
+    },
+    "reasoning": {
+      "completion_tokens": 128,
+      "ok": true,
+      "prompt_tokens": 57
+    },
+    "tool": {
+      "completion_tokens": 35,
+      "ok": true,
+      "prompt_tokens": 215
+    }
+  },
+  "speculative_counter_deltas": {
+    "vllm:spec_decode_num_accepted_tokens_total": 1508.0,
+    "vllm:spec_decode_num_draft_tokens_total": 9121.0
+  },
+  "status": "PASS",
+  "target": {
+    "id": "poolside/Laguna-S-2.1-NVFP4",
+    "revision": "07614121b31898586430f189d27a25a0be310843"
+  }
+}

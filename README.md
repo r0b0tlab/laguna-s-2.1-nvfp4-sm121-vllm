@@ -20,6 +20,14 @@ The production contract now follows Poolside's updated `0761412` "spinquantless 
 
 The target is not interchangeable with Laguna BF16, FP8, INT4, GGUF, XS, or M checkpoints. The DFlash repository is only a speculative accelerator and never replaces the target model.
 
+## Checkpoint 0761412 quick validation
+
+The updated Poolside `spinquantless norot weights, 256K` checkpoint passed the revision-scoped native/API sanity suite and llama-benchy 0.4.0. All six API probes passed; native `FLASHINFER_CUTLASS` was active with zero active Marlin, emulation, or fallback markers; and DFlash K=7 produced positive drafted and accepted counters.
+
+llama-benchy used a 2,048-token prompt, exactly 128 generated tokens, concurrency 1, three runs per point, and thinking disabled. Mean decode throughput was 22.23 tok/s at depth 0, 20.67 at 4K, 20.55 at 8K, and 19.88 at 16K. See the [checkpoint update report](results/v0.25.1-gb10/checkpoint-0761412/REPORT.md) and [machine-readable evidence](results/v0.25.1-gb10/checkpoint-0761412/).
+
+This short validation does not relabel the original 8,620-case battery, which remains bound to target revision `216d1f13878dd4e715bc7412848d0f330e95bba6`.
+
 ## Runtime selection
 
 `scripts/resolve_vllm_release.py` resolves the newest official non-draft, non-prerelease vLLM release by requiring GitHub Releases, the GitHub tag, and non-yanked PyPI metadata to agree. The exact tag and full commit are then frozen in `docker/dependency-manifest.json`.
@@ -54,7 +62,7 @@ docker run --rm --gpus all --ipc=host --network host \
   -e DFLASH_TOKENS=0 \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
-  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
+  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:4f8ba8a454fefc7b81f8e6ceafe46ed92ddf1f409a160556e5b1ea4daaaee80a
 ```
 
 AR remains the independent correctness baseline. The production image defaults to the qualified DFlash K=7 profile; set `DFLASH_TOKENS=0` explicitly for AR.
@@ -67,7 +75,7 @@ docker run --rm --gpus all --ipc=host --network host \
   -v /path/to/Laguna-S-2.1-NVFP4:/models/Laguna-S-2.1-NVFP4:ro \
   -v /path/to/Laguna-S-2.1-DFlash-NVFP4:/models/Laguna-S-2.1-DFlash-NVFP4:ro \
   -v /path/to/flashinfer-cache:/var/cache/flashinfer \
-  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
+  ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:4f8ba8a454fefc7b81f8e6ceafe46ed92ddf1f409a160556e5b1ea4daaaee80a
 ```
 
 Matched K={3,5,7,11,15} qualification selected K=7 for the production profile. DFlash requests must expose positive drafted/accepted counter deltas.
@@ -135,9 +143,11 @@ Detailed references:
 
 Repository code is MIT licensed. vLLM and FlashInfer are Apache-2.0 projects. Model use is governed by Poolside's OpenMDW-1.1 model license and acceptable-use terms. This repository redistributes no model weights.
 
-## Qualified release
+## Current checkpoint image
 
-Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3`
+Immutable image: `ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:4f8ba8a454fefc7b81f8e6ceafe46ed92ddf1f409a160556e5b1ea4daaaee80a`
+
+This checkpoint-only layer inherits the previously qualified runtime at `sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3`; vLLM, CUDA, FlashInfer, and native binaries are unchanged.
 
 GHCR package: [vllm-laguna-s-2.1-nvfp4-sm121](https://github.com/orgs/r0b0tlab/packages/container/package/vllm-laguna-s-2.1-nvfp4-sm121)
 

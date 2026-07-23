@@ -12,6 +12,22 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class ReleaseContractTests(unittest.TestCase):
+    def test_checkpoint_0761412_quick_validation_bundle(self) -> None:
+        quick = ROOT / "results/v0.25.1-gb10/checkpoint-0761412"
+        sanity = json.loads((quick / "sanity-summary.json").read_text())
+        bench = json.loads((quick / "llama-benchy.json").read_text())
+        provenance = json.loads((quick / "provenance.json").read_text())
+        self.assertEqual(sanity["status"], "PASS")
+        self.assertEqual(sanity["target"]["revision"], "07614121b31898586430f189d27a25a0be310843")
+        self.assertTrue(sanity["native"]["flashinfer_cutlass_nvfp4"])
+        self.assertTrue(all(item["ok"] for item in sanity["smoke"].values()))
+        self.assertEqual(len(bench["benchmarks"]), 4)
+        self.assertEqual([row["context_size"] for row in bench["benchmarks"]], [0, 4096, 8192, 16384])
+        self.assertEqual(provenance["scope"], "revision-scoped quick validation; not a replacement for the historical 8,620-case battery")
+        for line in (quick / "SHA256SUMS").read_text().splitlines():
+            digest, name = line.split("  ", 1)
+            self.assertEqual(hashlib.sha256((quick / name).read_bytes()).hexdigest(), digest)
+
     def test_full_battery_bundle(self) -> None:
         results = ROOT / "results/v0.25.1-gb10"
         full = results / "full-battery"

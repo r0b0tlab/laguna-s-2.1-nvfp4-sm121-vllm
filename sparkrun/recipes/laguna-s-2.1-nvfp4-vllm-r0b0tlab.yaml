@@ -4,7 +4,7 @@ description: Laguna S 2.1 native NVFP4 routed experts on one GB10 with FP8 KV an
 model: poolside/Laguna-S-2.1-NVFP4
 runtime: vllm
 runtime_version: "0.25.1"
-container: ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:8b0e3d07dad370853bca77441ff7c8619c41a0cb80d59a150bb0faf17ee15ef3
+container: ghcr.io/r0b0tlab/vllm-laguna-s-2.1-nvfp4-sm121@sha256:4f8ba8a454fefc7b81f8e6ceafe46ed92ddf1f409a160556e5b1ea4daaaee80a
 min_nodes: 1
 max_nodes: 1
 metadata:
